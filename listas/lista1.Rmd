@@ -44,7 +44,7 @@ Com base nas informações fornecidas, temos as seguintes probabilidades condici
 
 Usando essas informações, podemos calcular as seguintes probabilidades condicionais:
 
-1. \(P(H|T1, S) = \frac{P(S, T1, H)}{P(S, T1)} = \frac{P(S|T1, H) \cdot P(H|T1) \cdot P(T1)}{P(S|T1) \cdot P(T1)} = \frac{0.50}{0.45} \cdot P(H|T1)\)
+1. \(P(H|T1, S) = \frac{P(S, T1, H)}{P(S, T1)} = \frac{P(S|T1, H) \cdot P(H,T1)}{P(S|T1)} = \frac{P(S|T1, H) \cdot P(H|T1) \cdot P(T1)}{P(S|T1) \cdot P(T1)} = \frac{0.50}{0.45} \cdot P(H|T1)\)
 
 2. \(P(M|T1, S) = \frac{P(S, T1, M)}{P(S, T1)} = \frac{P(S|T1, M) \cdot P(M|T1) \cdot P(T1)}{P(S|T1) \cdot P(T1)} = \frac{0.20}{0.45} \cdot P(M|T1)\)
 
