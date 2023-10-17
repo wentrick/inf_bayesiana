@@ -1,0 +1,74 @@
+---
+title: "Lista 1 Bayesiana"
+author: "Davi Wentrick Feijó - 200016806"
+date: "2023-10-17"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Paradoxo de Simpson e o Teorema de Bayes
+
+O Paradoxo de Simpson é um fenômeno que ilustra uma situação onde o raciocínio condicional é necessário para fazer inferências. Considere uma amostra de pacientes, cada um deles recebendo um de dois tratamentos, T1 e T2. Os resultados experimentais indicam taxas de sobrevivência de 45% para T1 e 30% para T2, sugerindo que T1 é melhor devido à sua maior taxa de sobrevivência. No entanto, quando consideramos o sexo dos pacientes, as taxas de sobrevivência são as seguintes:
+
+|          | T1  | T2  |
+|----------|-----|-----|
+| Homens   | 50% | 60% |
+| Mulheres | 20% | 25% |
+
+Nesse contexto, T1 parece ser pior do que T2 em ambos os casos. Isso é conhecido como o Paradoxo de Simpson.
+
+O paradoxo pode ser explicado pelo Teorema de Bayes. Quando consideramos a distribuição dos pacientes entre homens e mulheres, a diferença nas taxas de sobrevivência entre T1 e T2 pode ser atribuída à composição da amostra. O Teorema de Bayes nos ensina que devemos levar em consideração a probabilidade de um paciente ser homem ou mulher ao fazer comparações entre os tratamentos. Portanto, o paradoxo ocorre quando a análise não considera a distribuição das variáveis relevantes.
+
+Em resumo, o Paradoxo de Simpson ilustra a importância do raciocínio condicional e do Teorema de Bayes ao fazer inferências estatísticas, especialmente quando variáveis adicionais podem afetar os resultados.
+
+Resolução:
+
+Probabilidades Condicionais e o Paradoxo de Simpson
+
+Com base nas informações fornecidas, temos as seguintes probabilidades condicionais:
+
+- \(P(S|T1) = 0.45\)
+
+- \(P(S|T2) = 0.30\)
+
+- \(P(S|T1, H) = 0.50\)
+
+- \(P(S|T2, H) = 0.60\)
+
+- \(P(S|T1, M) = 0.20\)
+
+- \(P(S|T2, M) = 0.25\)
+
+Usando essas informações, podemos calcular as seguintes probabilidades condicionais:
+
+1. \(P(H|T1, S) = \frac{P(S, T1, H)}{P(S, T1)} = \frac{P(S|T1, H) \cdot P(H|T1) \cdot P(T1)}{P(S|T1) \cdot P(T1)} = \frac{0.50}{0.45} \cdot P(H|T1)\)
+
+2. \(P(M|T1, S) = \frac{P(S, T1, M)}{P(S, T1)} = \frac{P(S|T1, M) \cdot P(M|T1) \cdot P(T1)}{P(S|T1) \cdot P(T1)} = \frac{0.20}{0.45} \cdot P(M|T1)\)
+
+3. \(P(H|T2, S) = \frac{P(S, T2, H)}{P(S, T2)} = \frac{P(S|T2, H) \cdot P(H|T2) \cdot P(T2)}{P(S|T2) \cdot P(T2)} = \frac{0.60}{0.30}\cdot P(H|T2)\)
+
+4. \(P(M|T2, S) = \frac{P(S, T2, M)}{P(S, T2)} = \frac{P(S|T2, M) \cdot P(M|T2) \cdot P(T2)}{P(S|T2) \cdot P(T2)} = \frac{0.25}{0.30} \cdot P(M|T2)\)
+
+Somando as equações (1) e (2) e usando o fato de que \(P(H|T1, S) + P(M|T1, S) = P(H|T1) + P(M|T1) = 1\), obtemos:
+
+\[
+\frac{P(H|T1)}{P(M|T1)} = \frac{0.45 - 0.20}{0.50 - 0.20} = 5
+\]
+
+Indicando que no grupo T1 havia 5 vezes mais homens do que mulheres. Analogamente, somando as equações (3) e (4), obtemos:
+
+\[
+\frac{P(H|T2)}{P(M|T2)} = \frac{0.30 - 0.25}{0.60 - 0.30} = \frac{1}{6}
+\]
+
+Indicando que no grupo T2 havia 6 vezes mais mulheres do que homens.
+
+Para concluir, percebemos que a probabilidade de sobrevivência dos homens é (muito) maior do que a das mulheres, independentemente do tratamento recebido. Quando consideramos que no grupo T1 foram alocados muito mais homens do que mulheres em comparação com a alocação no grupo T2, surge a conclusão de que a maior taxa de sobrevivência em T1 se deve não ao fato de T1 ser melhor do que T2, mas ao fato de muitos mais homens terem sido alocados para esse tratamento. Em termos técnicos, isso destaca a importância de não confundir correlação com causalidade.
+
+
+
+
+
