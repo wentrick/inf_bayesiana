@@ -266,9 +266,19 @@ Agora que manipulamos a equacao para ficar no formato desejado temos:
 
 + $\hat\theta = \frac{ \bar Y}{\bar X}$
 
+Ou seja:
+
+$$
+\frac{n \bar X}{\beta + n \bar X} \cdot \frac{\bar Y}{\bar X} + \frac{\beta}{\beta + n \bar X} \cdot \frac{\alpha}{\beta} = (1 - w)E(\theta) + w\hat{\theta}
+$$
+
 
 #### (c) O que acontece na parte (b) quando \(\beta\) é grande com \(\alpha\beta^{-1}\) fixo? Interprete!
 
+$$
+\lim_{\beta\rightarrow \infty} \frac{n \bar X}{\beta + n \bar X} \cdot \frac{\bar Y}{\bar X} + \frac{\beta}{\beta + n \bar X} \cdot \frac{\alpha}{\beta} \\
+\lim_{\beta\rightarrow \infty} 0 \cdot \frac{\bar Y}{\bar X} + 1 \cdot \frac{\alpha}{\beta}  =  \frac{\alpha}{\beta}
+$$
 
 
 ### Pergunta 3
