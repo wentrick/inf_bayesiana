@@ -133,6 +133,8 @@ $$
 
 #### (c) Se \(X_{n+1}\) é uma observação futura da mesma distribuição exponencial, calcule a distribuição preditiva \(p(x_{n+1} | X)\) e o valor esperado \(E(X_{n+1} | X)\).
 
+Seja $X = (X_1,...,X_n)$
+
 Sabemos que:
 
 $$
@@ -144,28 +146,51 @@ Os hiperparametros da distribuicao a posteriori é:
 $$
 \alpha^{\ast} = n+\alpha \ \ \  \ \ \ \beta^{\ast} = \beta+ n \bar X \ \ \ \sim Gama(\alpha^{\ast},\beta^{\ast}) 
 $$
-A verossimilhanca preditiva será:
+Vamos calcular a nossa $p(x_{n+1} | X)$
 
 $$
-p(X | \theta) = \prod_{i=1}^{n+1}(\theta e^{-\theta x_i}) = \theta^{n+1} e^{-\theta \sum_{i=1}^{n+1} x_i} = \theta^{n+1} e^{-\theta (n+1) \bar X}
+p(x_{n+1} | X) = \theta^1e^{-\theta x}
+$$
+Como estamos obersvando 1 nova observacao entao é encessario somente ver como ficaria o calculo de uma distribuicao exponencia com n=1
+
+
+$$
+\begin{align}
+p(x_{n+1}|X) &= \int p(\theta|X) \cdot p(X|\theta) d\theta \\
+&= \int \frac{\beta^{\ast\alpha^{\ast}}}{\Gamma(\alpha^{\ast})} \theta^{\alpha^{\ast} - 1} e^{-\beta^{\ast} \theta} \cdot \theta^1e^{-\theta x} d\theta \\
+&= \int \frac{\beta^{\ast\alpha^{\ast}}}{\Gamma(\alpha^{\ast})} \theta^{(\alpha^{\ast} + 1) - 1} e^{-\beta^{\ast} \theta -\theta x}  d\theta \\
+&= \int \frac{\beta^{\ast\alpha^{\ast}}}{\Gamma(\alpha^{\ast})} \theta^{(\alpha^{\ast} + 1) - 1} e^{-\theta(\beta^{\ast} + x)}  d\theta \\
+&= \int \frac{\beta^{\ast\alpha^{\ast}}}{\Gamma(\alpha^{\ast})} \theta^{(\alpha^{\ast} + 1) - 1} e^{-\theta(\beta^{\ast} + x)}  d\theta \\
+\end{align}
+$$
+Agora temos que manipular essa integral para dar 1, inicialmente vamos chamar de $\alpha^{\prime} = \alpha^{\ast} + 1$ $\beta^{\prime} = \beta^{\ast} + x$ e logo poderemos perceber que isso parece uma $Gama(\alpha^{\prime},\beta^{\prime})$ contudo a constante normalizadora ($\frac{\beta^{\ast\alpha^{\ast}}}{\Gamma(\alpha^{\ast})}$) nao esta certa, para isso vamos ter que fazer algumas mudancas
+
+$$
+\begin{align}
+&= \int \frac{\beta^{\ast\alpha^{\ast}}}{\Gamma(\alpha^{\ast})} \theta^{\alpha^{\prime} - 1} e^{-\theta\beta^{\prime}}  d\theta \\
+&= \frac{\Gamma(\alpha^{\prime})}{\Gamma(\alpha^{\prime})} \frac{\beta^{\prime\alpha^{\prime}}}{\beta^{\prime\alpha^{\prime}}} \int \frac{\beta^{\ast\alpha^{\ast}}}{\Gamma(\alpha^{\ast})} \theta^{\alpha^{\prime} - 1} e^{-\theta\beta^{\prime}}  d\theta \\
+&= \frac{\Gamma(\alpha^{\prime})}{\Gamma(\alpha^{\prime})} \frac{\beta^{\prime\alpha^{\prime}}}{\beta^{\prime\alpha^{\prime}}} \frac{\beta^{\ast\alpha^{\ast}}}{\Gamma(\alpha^{\ast})} \int  \theta^{\alpha^{\prime} - 1} e^{-\theta\beta^{\prime}}  d\theta \\
+&= \frac{\Gamma(\alpha^{\prime})}{\beta^{\prime\alpha^{\prime}}}  \frac{\beta^{\ast\alpha^{\ast}}}{\Gamma(\alpha^{\ast})} \int \frac{\beta^{\prime\alpha^{\prime}}}{\Gamma(\alpha^{\prime})} \theta^{\alpha^{\prime} - 1} e^{-\theta\beta^{\prime}}  d\theta \\
+\end{align}
 $$
 
+Agora sabemos que essa integral segue $Gama(\alpha^{\prime},\beta^{\prime})$ logo o resultado dela sera 1
 
+
+$$
+\begin{align}
+&= \frac{\Gamma(\alpha^{\prime})}{\Gamma(\alpha^{\ast})}  \frac{\beta^{\ast\alpha^{\ast}}}{\beta^{\prime\alpha^{\prime}}} \int \frac{\beta^{\prime\alpha^{\prime}}}{\Gamma(\alpha^{\prime})} \theta^{\alpha^{\prime} - 1} e^{-\theta\beta^{\prime}}  d\theta \\
+&= \frac{\Gamma(\alpha^{\ast} + 1)}{\Gamma(\alpha^{\ast})}  \frac{\beta^{\ast\alpha^{\ast}}}{\beta^{\prime\alpha^{\prime}}} \\
+&= \frac{(\alpha^{\ast} + 1)\Gamma(\alpha^{\ast})}{\Gamma(\alpha^{\ast})}  \frac{\beta^{\ast\alpha^{\ast}}}{\beta^{\prime\alpha^{\prime}}} \\
+&= \frac{(\alpha^{\ast} + 1)\Gamma(\alpha^{\ast})}{\Gamma(\alpha^{\ast})}  \frac{\beta^{\ast\alpha^{\ast}}}{\beta^{\prime\alpha^{\prime}}} \\
+&= \frac{\Gamma(\alpha^{\prime})}{\Gamma(\alpha^{\ast})}  \frac{\beta^{\ast\alpha^{\ast}}}{\beta^{\prime\alpha^{\prime}}} \varpropto \frac{1}{\beta^{\prime\alpha^{\prime}}} \\
+\end{align}
+$$
 
 
 Nossa distribuicao preditiva vai ser dado por:
 
-$$
-\begin{align}
-p(x_{n+1}|X) = \int p(x_{n+1}, \theta|X) d\theta &= \int p(x_{n+1}| X,\theta) p(\theta|X) d\theta \\
- &= \int p(x_{n+1}| X,\theta) p(\theta|X) d\theta \\
- &= \int \theta^{n+1} e^{-\theta (n+1) \bar X} \cdot \theta^{(n+\alpha)-1} e^{-(\beta+ n \bar X) \theta} d\theta \\
- &= \int \theta^{n+1}  \cdot \theta^{(n+\alpha)-1} \cdot e^{-\theta (n+1) \bar X} \cdot  e^{-(\beta+ n \bar X) \theta} d\theta \\
- &= \int \theta^{(n+\alpha)-1+(n+1)} \cdot e^{-(\beta+ n \bar X) \theta + (-\theta (n+1) \bar X)} d\theta \\
- &= \int \theta^{n+\alpha-1+n+1)} \cdot e^{-(\beta+ n \bar X) \theta -\theta (n+1) \bar X} d\theta \\
- &= \int \theta^{2n+\alpha} \cdot e^{-\theta[(\beta+ n \bar X)+(n+1) \bar X]} d\theta \\
-\end{align}
-$$
+
 
 ### Pergunta 2
 
