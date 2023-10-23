@@ -1,0 +1,232 @@
+---
+title: "Prova 1 2022/2"
+author: "Davi Wentrick Feijó"
+date: "2023-10-22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Prova 1 Inferencia Bayesiana 2022/2
+
+### Pergunta 1
+
+Suponha que $S|\theta \sim \text{Binomial}(n,\theta)$ e considere que a priori $\theta \sim \text{Uniforme}(0,1)$
+
+#### a) Ache a distribuicao a posteriori $p(\theta|s)$
+
+
+
+Sabemos que para calcular a posteriori podemos usar a seguinte formula:
+
+
+$$
+p(\theta | X) = \frac{p(X | \theta) \cdot p(\theta)}{p(X)} 
+$$
+
+Sabemos que :
+
++ $p(X | \theta)$ é a nossa verossimilhanca 
+
++ $p(\theta)$ é a priori
+
++ $p(X)$ é a constante de normalizacao 
+
+Entretanto a posteriori pode ser expressa da seguinte forma:
+
+$$
+p(\theta | X)  \varpropto  p(X | \theta) \cdot p(\theta) 
+$$
+
+Isso significa que a distribuicao a posteriori vai ser proporcional a $p(X | \theta) \cdot p(\theta)$. O que faz sentido tendo em vista que tiramos a constante de normalizacao, logo nao vao estar na mesma escala e por isso serao proporcionais.
+
+O problema nos da:
+
++ $p(X | \theta)$ = ${n \brack x} \theta^x(1-\theta)^{n-x}$
+
++ $p(\theta)$ = $\frac{1}{b-a}$
+
+
+Vamos encontrar $p(\theta | X)$ nossa verossimilhanca:
+
+Sabemos que a distribuicao binomial é uma serie de Bernoulli por isso usamos ela no calculos da verossimilhanca
+
+$$
+p(X | \theta) = \prod_{i=1}^{n}(\theta^{x_i}(1-\theta)^{1-x_i}) = \theta^{x}(1-\theta)^{n-x}
+$$
+
+A nossa priori(\theta) segue uma $\text{Uniforme}(0,1)$ porem ela pode ser representada por uma $\text{Beta}(1,1)$ por isso no calculo da posteriori vamos usar a $\text{Beta}(a,b)$
+
+$$
+\text{Beta}(a,b) = \theta^{a-1}(1-\theta)^{b-1} \\
+
+E(X) = \frac{\alpha}{\alpha + \beta} \ \ \  \ \ Var(X) = \frac{\alpha \beta}{(\alpha + \beta)^2(\alpha+\beta+1)}
+$$
+
+$$
+
+\begin{align}
+
+p(\theta | X)  &\varpropto  p(X | \theta) \cdot p(\theta) \\
+
+&\varpropto  \theta^{x}(1-\theta)^{n-x} \cdot \text{Beta}(a,b) \\
+
+&\varpropto  \theta^{x}(1-\theta)^{n-x} \cdot \theta^{a-1}(1-\theta)^{b-1} \\
+
+&\varpropto  \theta^{x+(a-1)}(1-\theta)^{(n-x)+(b-1)} \\
+
+&\varpropto  \theta^{(x+a)-1}(1-\theta)^{(n-x+b)-1} \sim Beta(x+a,n-x+b) \\
+
+\end{align}
+
+$$
+
+
+#### b) Ache a estimativa de \theta sob perda quadratica
+
+A perda quadratica vai ser igual a $E(\theta | X)$ (Esperanca a posteriori)
+
+$$
+E(\theta | X) = \frac{x+a}{(x+a) + (n-x+b)}
+$$
+
+#### c) Ache a estimativa de $\eta  = \theta^2$ sob perda quadratica
+
+
+
+### Pergunta 2
+
+Seja uma amostra de $X_1,...,X_n$ da distribuicao exponencia com parametro \theta e densidade $p(x|\theta) = \theta e^{-\theta x} (\theta,x > 0)$ e a priori $\theta \sim \text{Gama}(\alpha.\beta)$
+
+#### a) Ache a distribuicao a posteriori $p(\theta|X_1,...,X_n)$
+
+Seja $X = (X_1,...,X_n)$
+
+Sabemos que para calcular a posteriori podemos usar a seguinte formula:
+
+
+$$
+p(\theta | X) = \frac{p(X | \theta) \cdot p(\theta)}{p(X)} 
+$$
+
+Sabemos que :
+
++ $p(X | \theta)$ é a nossa verossimilhanca 
+
++ $p(\theta)$ é a priori
+
++ $p(X)$ é a constante de normalizacao 
+
+Entretanto a posteriori pode ser expressa da seguinte forma:
+
+$$
+p(\theta | X)  \varpropto  p(X | \theta) \cdot p(\theta) 
+$$
+
+Isso significa que a distribuicao a posteriori vai ser proporcional a $p(X | \theta) \cdot p(\theta)$. O que faz sentido tendo em vista que tiramos a constante de normalizacao, logo nao vao estar na mesma escala e por isso serao proporcionais.
+
+O problema nos da:
+
++ $p(X | \theta)$   = $\theta e^{-\theta x}$
+
++ $p(\theta)$ = $\text{Gama}(\alpha, \beta)$ = $\frac{\beta^{\alpha}}{\Gamma(\alpha)} \theta^{\alpha - 1} e^{-\beta \theta}$
+
+
+Vamos encontrar $p(\theta | X)$ nossa verossimilhanca:
+
+$$
+p(X | \theta) = \prod_{i=1}^{n}(\theta e^{-\theta x_i}) = \theta^n e^{-\theta n \bar X}
+$$
+Logo podemos ir para o calculo da posteriori:
+
+$$
+
+\begin{align}
+
+p(\theta | X)  &\varpropto  p(X | \theta) \cdot p(\theta) \\
+
+&\varpropto  \theta^n e^{-\theta n \bar X} \cdot \text{Gama}(\alpha, \beta) \\
+
+&\varpropto  \theta^n e^{-\theta n \bar X} \cdot \frac{\beta^{\alpha}}{\Gamma(\alpha)} \theta^{\alpha - 1} e^{-\beta \theta} \\
+
+&\varpropto  \theta^n e^{-\theta n \bar X} \cdot  \theta^{\alpha - 1} e^{-\beta \theta} \\
+
+&\varpropto  \theta^{(n+\alpha)-1} e^{-(\beta+ n \bar X) \theta} \sim Gama(n+\alpha,\beta+ n \bar X) \\
+
+\end{align}
+
+$$
+
+Obs: Foi retirado os termos constantes que nao dependem de \theta devido ao fato de estarmos buscando uma distribuicao proporcional, esses termos seriam para normalizacao da distribuicao econtrada. Ao final da conta foi feita manipulacao nos expoentes para que fique no mesmo formato de uma distribuicao Gama
+
+
+
+#### b) Usando a perda quadratica, calcule o estimador bayesiano de \theta e mostre que ele pode ser escrito na forma $wE(\theta)+(1-w\theta)$ onde $E(\theta)$ é o valor esperado a priori e $\hat \theta$ é o estimador de maximo verossimilhanca de \theta.
+
+Sabemos que a distribuicao Gama tem esperanca na forma : $\frac{\alpha}{\beta}$, logo o valor esperado a posteriori será:
+
+$$
+E(\theta)_{post} = \frac{n+\alpha}{\beta+ n \bar X}
+$$
+
+Para a realizacao do calculo vamos tomar a reciproca da $E(\theta)_{post}$:
+
+$$
+\begin{align}
+
+E(\theta)_{post}^{-1} &= \frac{ n \bar X+\beta}{\alpha+n} \\
+
+ &= \frac{ n \bar X+\beta}{\alpha+n} \\
+ &= \frac{ \sum_{i=1}^{n}x_i+\beta}{\alpha+n} \\
+ &= \frac{ \sum_{i=1}^{n}x_i}{\alpha+n} \cdot \frac{n}{n} + \frac{\beta}{\alpha+n} \cdot \frac{\alpha}{\alpha} \\
+ &= \frac{n \sum_{i=1}^{n}x_i }{(\alpha+n)n}  + \frac{\beta \alpha}{(\alpha+n) \alpha} \\
+ &= \frac{ n}{\alpha+n} \cdot \frac{\sum_{i=1}^{n}x_i}{n} + \frac{\alpha}{\alpha+n} \cdot \frac{\beta}{\alpha} \\
+\end{align}
+$$
+
+Apos as manipulacoes algebricas, chegamos numa forma que é similar a forma desejada $wE(\theta) + (1 - w)\hat{\theta}$:
+
++ $E(\theta)$ = $\frac{\sum_{i=1}^{n}x_i}{n}$
+
++ $\hat{\theta}$ = $\frac{\beta}{\alpha}$
+
+Nosso $w$ será:
+
+$$
+w = \frac{n}{\alpha+n} 
+$$
+E a partir disso podemos calcular $1-w$
+
+$$
+ 1-w = 1 - \frac{n}{\alpha+n} = \frac{\alpha+n-n}{\alpha+n} = \frac{\alpha}{\alpha+n}
+$$
+
+Mostramos que os resultados batem com o esperado, logo a equacao pode ser reescrita da seguinte forma:
+
++ $E(\theta)$ = $\frac{\sum_{i=1}^{n}x_i}{n}$
+
++ $\hat{\theta}$ = $\frac{\beta}{\alpha}$
+
++ $W$ = $\frac{n}{\alpha+n}$
+
++ $1-W$ = $\frac{\alpha}{\alpha+n}$
+
+
+#### c) Se $X_{n+1}$ é uma observacao futura da mesma distribuicao exponencial, condicionalmente independente de $X_1,...,X_n$. Calcule a distribuicao preditiva $p(x_{n+1}|x_1,...,x_n)$ e o valor esperado $E(X_{n+1}|x_1,...,x_n)$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

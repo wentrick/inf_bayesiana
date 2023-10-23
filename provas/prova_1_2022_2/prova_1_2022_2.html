@@ -11,9 +11,9 @@
 
 <meta name="author" content="Davi Wentrick Feijó" />
 
-<meta name="date" content="2023-10-18" />
+<meta name="date" content="2023-10-22" />
 
-<title>Prova 1-2017/2</title>
+<title>Prova 1 2022/2</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -350,21 +350,101 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Prova 1-2017/2</h1>
+<h1 class="title toc-ignore">Prova 1 2022/2</h1>
 <h4 class="author">Davi Wentrick Feijó</h4>
-<h4 class="date">2023-10-18</h4>
+<h4 class="date">2023-10-22</h4>
 
 </div>
 
 
+<div id="prova-1-inferencia-bayesiana-20222" class="section level2">
+<h2>Prova 1 Inferencia Bayesiana 2022/2</h2>
 <div id="pergunta-1" class="section level3">
 <h3>Pergunta 1</h3>
-<p>Seja uma amostra <span class="math inline">\(X\)</span> da
-distribuição exponencial com parâmetro <span class="math inline">\(\theta\)</span> e densidade <span class="math inline">\(p(x|\theta) = \theta e^{-\theta x}\)</span> (<span class="math inline">\(x, \theta &gt; 0\)</span>) e considere uma
-distribuição a priori <span class="math inline">\(\theta \sim
-\text{Gama}(\alpha, \beta)\)</span>.</p>
-<div id="a-calcule-a-distribuição-a-posteriori-ptheta-x." class="section level4">
-<h4>(a) Calcule a distribuição a posteriori <span class="math inline">\(p(\theta | X)\)</span>.</h4>
+<p>Suponha que <span class="math inline">\(S|\theta \sim
+\text{Binomial}(n,\theta)\)</span> e considere que a priori <span class="math inline">\(\theta \sim \text{Uniforme}(0,1)\)</span></p>
+<div id="a-ache-a-distribuicao-a-posteriori-pthetas" class="section level4">
+<h4>a) Ache a distribuicao a posteriori <span class="math inline">\(p(\theta|s)\)</span></h4>
+<p>Sabemos que para calcular a posteriori podemos usar a seguinte
+formula:</p>
+<p><span class="math display">\[
+p(\theta | X) = \frac{p(X | \theta) \cdot p(\theta)}{p(X)}
+\]</span></p>
+<p>Sabemos que :</p>
+<ul>
+<li><p><span class="math inline">\(p(X | \theta)\)</span> é a nossa
+verossimilhanca</p></li>
+<li><p><span class="math inline">\(p(\theta)\)</span> é a
+priori</p></li>
+<li><p><span class="math inline">\(p(X)\)</span> é a constante de
+normalizacao</p></li>
+</ul>
+<p>Entretanto a posteriori pode ser expressa da seguinte forma:</p>
+<p><span class="math display">\[
+p(\theta | X)  \varpropto  p(X | \theta) \cdot p(\theta)
+\]</span></p>
+<p>Isso significa que a distribuicao a posteriori vai ser proporcional a
+<span class="math inline">\(p(X | \theta) \cdot p(\theta)\)</span>. O
+que faz sentido tendo em vista que tiramos a constante de normalizacao,
+logo nao vao estar na mesma escala e por isso serao proporcionais.</p>
+<p>O problema nos da:</p>
+<ul>
+<li><p><span class="math inline">\(p(X | \theta)\)</span> = <span class="math inline">\({n \brack x}
+\theta^x(1-\theta)^{n-x}\)</span></p></li>
+<li><p><span class="math inline">\(p(\theta)\)</span> = <span class="math inline">\(\frac{1}{b-a}\)</span></p></li>
+</ul>
+<p>Vamos encontrar <span class="math inline">\(p(\theta | X)\)</span>
+nossa verossimilhanca:</p>
+<p>Sabemos que a distribuicao binomial é uma serie de Bernoulli por isso
+usamos ela no calculos da verossimilhanca</p>
+<p><span class="math display">\[
+p(X | \theta) = \prod_{i=1}^{n}(\theta^{x_i}(1-\theta)^{1-x_i}) =
+\theta^{x}(1-\theta)^{n-x}
+\]</span></p>
+<p>A nossa priori() segue uma <span class="math inline">\(\text{Uniforme}(0,1)\)</span> porem ela pode ser
+representada por uma <span class="math inline">\(\text{Beta}(1,1)\)</span> por isso no calculo da
+posteriori vamos usar a <span class="math inline">\(\text{Beta}(a,b)\)</span></p>
+<p>$$ (a,b) = <sup>{a-1}(1-)</sup>{b-1} \</p>
+<p>E(X) =       Var(X) = $$</p>
+<p>$$</p>
+<p><span class="math display">\[\begin{align}
+
+p(\theta | X)  &amp;\varpropto  p(X | \theta) \cdot p(\theta) \\
+
+&amp;\varpropto  \theta^{x}(1-\theta)^{n-x} \cdot \text{Beta}(a,b) \\
+
+&amp;\varpropto  \theta^{x}(1-\theta)^{n-x} \cdot
+\theta^{a-1}(1-\theta)^{b-1} \\
+
+&amp;\varpropto  \theta^{x+(a-1)}(1-\theta)^{(n-x)+(b-1)} \\
+
+&amp;\varpropto  \theta^{(x+a)-1}(1-\theta)^{(n-x+b)-1} \sim
+Beta(x+a,n-x+b) \\
+
+\end{align}\]</span></p>
+<p>$$</p>
+</div>
+<div id="b-ache-a-estimativa-de-sob-perda-quadratica" class="section level4">
+<h4>b) Ache a estimativa de sob perda quadratica</h4>
+<p>A perda quadratica vai ser igual a <span class="math inline">\(E(\theta | X)\)</span> (Esperanca a
+posteriori)</p>
+<p><span class="math display">\[
+E(\theta | X) = \frac{x+a}{(x+a) + (n-x+b)}
+\]</span></p>
+</div>
+<div id="c-ache-a-estimativa-de-eta-theta2-sob-perda-quadratica" class="section level4">
+<h4>c) Ache a estimativa de <span class="math inline">\(\eta =
+\theta^2\)</span> sob perda quadratica</h4>
+</div>
+</div>
+<div id="pergunta-2" class="section level3">
+<h3>Pergunta 2</h3>
+<p>Seja uma amostra de <span class="math inline">\(X_1,...,X_n\)</span>
+da distribuicao exponencia com parametro e densidade <span class="math inline">\(p(x|\theta) = \theta e^{-\theta x} (\theta,x &gt;
+0)\)</span> e a priori <span class="math inline">\(\theta \sim
+\text{Gama}(\alpha.\beta)\)</span></p>
+<div id="a-ache-a-distribuicao-a-posteriori-pthetax_1...x_n" class="section level4">
+<h4>a) Ache a distribuicao a posteriori <span class="math inline">\(p(\theta|X_1,...,X_n)\)</span></h4>
 <p>Seja <span class="math inline">\(X = (X_1,...,X_n)\)</span></p>
 <p>Sabemos que para calcular a posteriori podemos usar a seguinte
 formula:</p>
@@ -426,12 +506,11 @@ seriam para normalizacao da distribuicao econtrada. Ao final da conta
 foi feita manipulacao nos expoentes para que fique no mesmo formato de
 uma distribuicao Gama</p>
 </div>
-<div id="b-calcule-o-valor-esperado-a-posteriori-de-theta-e-mostre-que-ele-pode-ser-escrito-da-forma-wetheta-1---whattheta-onde-etheta-é-o-valor-esperado-a-priori-e-hattheta-é-o-estimador-de-máxima-verossimilhança." class="section level4">
-<h4>(b) Calcule o valor esperado a posteriori de <span class="math inline">\(\theta\)</span> e mostre que ele pode ser escrito
-da forma <span class="math inline">\(wE(\theta) + (1 -
-w)\hat{\theta}\)</span>, onde <span class="math inline">\(E(\theta)\)</span> é o valor esperado a priori e
-<span class="math inline">\(\hat{\theta}\)</span> é o estimador de
-máxima verossimilhança.</h4>
+<div id="b-usando-a-perda-quadratica-calcule-o-estimador-bayesiano-de-e-mostre-que-ele-pode-ser-escrito-na-forma-wetheta1-wtheta-onde-etheta-é-o-valor-esperado-a-priori-e-hat-theta-é-o-estimador-de-maximo-verossimilhanca-de-." class="section level4">
+<h4>b) Usando a perda quadratica, calcule o estimador bayesiano de e
+mostre que ele pode ser escrito na forma <span class="math inline">\(wE(\theta)+(1-w\theta)\)</span> onde <span class="math inline">\(E(\theta)\)</span> é o valor esperado a priori e
+<span class="math inline">\(\hat \theta\)</span> é o estimador de maximo
+verossimilhanca de .</h4>
 <p>Sabemos que a distribuicao Gama tem esperanca na forma : <span class="math inline">\(\frac{\alpha}{\beta}\)</span>, logo o valor
 esperado a posteriori será:</p>
 <p><span class="math display">\[
@@ -474,200 +553,15 @@ ser reescrita da seguinte forma:</p>
 <li><p><span class="math inline">\(W\)</span> = <span class="math inline">\(\frac{n}{\alpha+n}\)</span></p></li>
 <li><p><span class="math inline">\(1-W\)</span> = <span class="math inline">\(\frac{\alpha}{\alpha+n}\)</span></p></li>
 </ul>
-<p><span class="math display">\[
-\frac{ n}{\alpha+n} \cdot \frac{\sum_{i=1}^{n}x_i}{n} +
-\frac{\alpha}{\alpha+n} \cdot \frac{\beta}{\alpha} = wE(\theta) + (1 -
-w)\hat{\theta}
-\]</span></p>
 </div>
-<div id="c-se-x_n1-é-uma-observação-futura-da-mesma-distribuição-exponencial-calcule-a-distribuição-preditiva-px_n1-x-e-o-valor-esperado-ex_n1-x." class="section level4">
-<h4>(c) Se <span class="math inline">\(X_{n+1}\)</span> é uma observação
-futura da mesma distribuição exponencial, calcule a distribuição
-preditiva <span class="math inline">\(p(x_{n+1} | X)\)</span> e o valor
-esperado <span class="math inline">\(E(X_{n+1} | X)\)</span>.</h4>
-<p>Sabemos que:</p>
-<p><span class="math display">\[
-p(\theta | X) \varpropto \theta^{(n+\alpha)-1} e^{-(\beta+ n \bar X)
-\theta} \sim Gama(n+\alpha,\beta+ n \bar X)
-\]</span></p>
-<p>Os hiperparametros da distribuicao a posteriori é:</p>
-<p><span class="math display">\[
-\alpha^{\ast} = n+\alpha \ \ \  \ \ \ \beta^{\ast} = \beta+ n \bar X \ \
-\ \sim Gama(\alpha^{\ast},\beta^{\ast})
-\]</span> A verossimilhanca preditiva será:</p>
-<p><span class="math display">\[
-p(X | \theta) = \prod_{i=1}^{n+1}(\theta e^{-\theta x_i}) = \theta^{n+1}
-e^{-\theta \sum_{i=1}^{n+1} x_i} = \theta^{n+1} e^{-\theta (n+1) \bar X}
-\]</span></p>
-<p>Nossa distribuicao preditiva vai ser dado por:</p>
-<p><span class="math display">\[
-\begin{align}
-p(x_{n+1}|X) = \int p(x_{n+1}, \theta|X) d\theta &amp;= \int p(x_{n+1}|
-X,\theta) p(\theta|X) d\theta \\
-&amp;= \int p(x_{n+1}| X,\theta) p(\theta|X) d\theta \\
-&amp;= \int \theta^{n+1} e^{-\theta (n+1) \bar X} \cdot
-\theta^{(n+\alpha)-1} e^{-(\beta+ n \bar X) \theta} d\theta \\
-&amp;= \int \theta^{n+1}  \cdot \theta^{(n+\alpha)-1} \cdot e^{-\theta
-(n+1) \bar X} \cdot  e^{-(\beta+ n \bar X) \theta} d\theta \\
-&amp;= \int \theta^{(n+\alpha)-1+(n+1)} \cdot e^{-(\beta+ n \bar X)
-\theta + (-\theta (n+1) \bar X)} d\theta \\
-&amp;= \int \theta^{n+\alpha-1+n+1)} \cdot e^{-(\beta+ n \bar X) \theta
--\theta (n+1) \bar X} d\theta \\
-&amp;= \int \theta^{2n+\alpha} \cdot e^{-\theta[(\beta+ n \bar X)+(n+1)
-\bar X]} d\theta \\
-\end{align}
-\]</span></p>
+<div id="c-se-x_n1-é-uma-observacao-futura-da-mesma-distribuicao-exponencial-condicionalmente-independente-de-x_1...x_n.-calcule-a-distribuicao-preditiva-px_n1x_1...x_n-e-o-valor-esperado-ex_n1x_1...x_n" class="section level4">
+<h4>c) Se <span class="math inline">\(X_{n+1}\)</span> é uma observacao
+futura da mesma distribuicao exponencial, condicionalmente independente
+de <span class="math inline">\(X_1,...,X_n\)</span>. Calcule a
+distribuicao preditiva <span class="math inline">\(p(x_{n+1}|x_1,...,x_n)\)</span> e o valor esperado
+<span class="math inline">\(E(X_{n+1}|x_1,...,x_n)\)</span></h4>
 </div>
 </div>
-<div id="pergunta-2" class="section level3">
-<h3>Pergunta 2</h3>
-<p>Sejam <span class="math inline">\(y_1, y_2, \ldots, y_n\)</span>
-observações independentes com <span class="math inline">\(y_i \sim
-\text{Poisson}(\theta x_i)\)</span>, onde as exposições <span class="math inline">\(x_i\)</span> são fixas (não aleatórias). A taxa
-<span class="math inline">\(\theta\)</span> segue a priori uma
-distribuição <span class="math inline">\(\text{Gama}(\alpha,
-\beta)\)</span>.</p>
-<div id="a-ache-a-distribuição-a-posteriori-de-theta-e-sua-média-e-variância." class="section level4">
-<h4>(a) Ache a distribuição a posteriori de <span class="math inline">\(\theta\)</span> e sua média e variância.</h4>
-<p>Sabemos que :</p>
-<p><span class="math display">\[
-y_i|\theta \sim \text{Poisson}(\theta x_i)
-\]</span> Ou seja cada observacao segue uma poisson, entretanto para
-resolver precisamos encontrar a distribuicao de Y. Para isso vamos
-realizar o somatorio em <span class="math inline">\(y_i\)</span>.</p>
-<p><span class="math display">\[
-Y = \sum_{i=1}^{n} y_i|\theta \sim \text{Poisson}(\theta n \bar X) =
-\frac{(\theta n \bar X)^{y_i}e^{-n \bar X \theta}}{y_i!}
-\]</span></p>
-<p>Obs: A substituicao feita foi com base na formula para o calculo da
-media onde <span class="math inline">\(\sum_{i=1}^{n} x_i = n \bar
-X\)</span></p>
-<p>Agora podemos calcular a verossimilhanca:</p>
-<p><span class="math display">\[
-\begin{align}
-p(Y|n \bar X) &amp;= \prod_{i=1}^{n} \frac{(\theta n \bar X)^{y_i}e^{-n
-\bar X \theta}}{y_i!}  \\
-&amp;=  \frac{(\theta n \bar X)^{n \bar Y}e^{-n \bar X \theta}}{y_i!}
-\varpropto  \theta^{n \bar Y}  e^{-n \bar X \theta}
-\end{align}
-\]</span> Foram retirados todos as partes que sao independentes de por
-isso usamos o simbolo de proporcionalidade ja que sao termos
-responsaveis pela normalizacao da distribuicao (entre 0 e 1).</p>
-<p>A nossa priori é:</p>
-<p><span class="math display">\[
-p(\theta) \sim Gama(\alpha,\beta) \\
-\]</span> <span class="math display">\[
-p(\theta) = \frac{\beta^{\alpha}}{\Gamma(\alpha)} \theta^{\alpha - 1}
-e^{-\beta \theta} \\
-p(\theta) \varpropto  \theta^{\alpha - 1} e^{-\beta \theta}
-\]</span></p>
-<p>Podemos iniciar o calculo da posteriori:</p>
-<p><span class="math display">\[
-\begin{align}
-p(\theta|Y) \varpropto p(Y|n \bar X) \cdot p(\theta) &amp;=  \theta^{n
-\bar Y}  e^{-n \bar X \theta} \cdot \theta^{\alpha - 1} e^{-\beta
-\theta}\\
-&amp;=  \theta^{(n \bar Y+\alpha)-1}  e^{-(\beta + n \bar X) \theta}
-\sim Gama(n \bar Y+\alpha,\beta + n \bar X)
-\end{align}
-\]</span></p>
-<p>Com a distribuicao calculada podemos encontrar a média e a variancia
-com base nas formulas da Gama, logo:</p>
-<p><span class="math display">\[
-E(\theta|Y) = \frac{n \bar Y+\alpha}{\beta + n \bar X} \ \ \ \ \ \  \
-\  \ Var(\theta|Y) = \frac{n \bar Y+\alpha}{(\beta + n \bar X)^2}
-\]</span></p>
-</div>
-<div id="b-mostre-que-é-possível-expressar-a-esperança-a-posteriori-de-theta-da-forma-1---wetheta-whattheta-onde-etheta-e-hattheta-são-respectivamente-a-esperança-a-priori-e-a-estimativa-de-máxima-verossimilhança-de-theta-e-interprete-este-resultado." class="section level4">
-<h4>(b) Mostre que é possível expressar a esperança a posteriori de
-<span class="math inline">\(\theta\)</span> da forma <span class="math inline">\((1 - w)E(\theta) + w\hat{\theta}\)</span>, onde
-<span class="math inline">\(E(\theta)\)</span> e <span class="math inline">\(\hat{\theta}\)</span> são, respectivamente, a
-esperança a priori e a estimativa de máxima verossimilhança de <span class="math inline">\(\theta\)</span>, e interprete este resultado.</h4>
-<p>Vamos encontrar o <span class="math inline">\(\hat
-\theta\)</span></p>
-<p><span class="math display">\[
-\begin{align}
-\hat \theta &amp;= \frac{\partial }{\partial \theta} log(\theta^{n \bar
-Y}  e^{-n \bar X \theta}) = 0 \\
-&amp;= \frac{\partial }{\partial \theta} n \bar Ylog(\theta)-n \bar X
-\theta = 0 \\
-&amp;=  \frac{n \bar Y}{\hat\theta}-n \bar X  = 0 \\
-&amp;=  n[\frac{ \bar Y}{\hat\theta}- \bar X]  = 0 \\
-&amp;=  \frac{ \bar Y}{\hat\theta}- \bar X  = \frac{0}{n} \\
-&amp;=  \frac{ \bar Y}{\hat\theta}- \bar X  = 0 \\
-&amp;=  \frac{ \bar Y}{\hat\theta}   = \bar X \\
-&amp;=  \frac{ \bar Y}{\bar X}   =  \hat\theta\\
-\end{align}
-\]</span> <span class="math inline">\(E(\theta)\)</span> é a nossa
-esperanca a priora ou seja é a esperanca que vem da distribuicao <span class="math inline">\(Gama(\alpha,\beta)\)</span></p>
-<p><span class="math display">\[
-E(\theta) = \frac{\alpha}{\beta}
-\]</span></p>
-<p>Com isso podemos ir para a prova:</p>
-<p><span class="math display">\[
-\begin{align}
-E(\theta|Y) &amp;=  \frac{n \bar Y+\alpha}{\beta + n \bar X} \\
-&amp;=  \frac{n \bar Y}{\beta + n \bar X} + \frac{\alpha}{\beta + n \bar
-X}\\
-&amp;=  \frac{n \bar Y}{\beta + n \bar X} \cdot \frac{\bar X}{\bar X} +
-\frac{\alpha}{\beta + n \bar X} \cdot \frac{\beta}{\beta} \\
-&amp;=  \frac{n \bar X}{\beta + n \bar X} \cdot \frac{\bar Y}{\bar X} +
-\frac{\beta}{\beta + n \bar X} \cdot \frac{\alpha}{\beta} \\
-\end{align}
-\]</span></p>
-<p>Agora que manipulamos a equacao para ficar no formato desejado
-temos:</p>
-<ul>
-<li><p><span class="math inline">\(w = \frac{n \bar X}{\beta + n \bar
-X}\)</span></p></li>
-<li><p><span class="math inline">\(1 - w = \frac{\beta}{\beta + n \bar
-X}\)</span></p></li>
-<li><p><span class="math inline">\(E(\theta) =
-\frac{\alpha}{\beta}\)</span></p></li>
-<li><p><span class="math inline">\(\hat\theta = \frac{ \bar Y}{\bar
-X}\)</span></p></li>
-</ul>
-<p>Ou seja:</p>
-<p><span class="math display">\[
-\frac{n \bar X}{\beta + n \bar X} \cdot \frac{\bar Y}{\bar X} +
-\frac{\beta}{\beta + n \bar X} \cdot \frac{\alpha}{\beta} = (1 -
-w)E(\theta) + w\hat{\theta}
-\]</span></p>
-</div>
-<div id="c-o-que-acontece-na-parte-b-quando-beta-é-grande-com-alphabeta-1-fixo-interprete" class="section level4">
-<h4>(c) O que acontece na parte (b) quando <span class="math inline">\(\beta\)</span> é grande com <span class="math inline">\(\alpha\beta^{-1}\)</span> fixo? Interprete!</h4>
-<p><span class="math display">\[
-\lim_{\beta\rightarrow \infty} \frac{n \bar X}{\beta + n \bar X} \cdot
-\frac{\bar Y}{\bar X} + \frac{\beta}{\beta + n \bar X} \cdot
-\frac{\alpha}{\beta} \\
-\lim_{\beta\rightarrow \infty} 0 \cdot \frac{\bar Y}{\bar X} + 1 \cdot
-\frac{\alpha}{\beta}  =  \frac{\alpha}{\beta}
-\]</span></p>
-</div>
-</div>
-<div id="pergunta-3" class="section level3">
-<h3>Pergunta 3</h3>
-<p>Seja <span class="math inline">\(y_1, y_2, \ldots, y_n\)</span> uma
-amostra da distribuição de Bernoulli com probabilidade de sucesso <span class="math inline">\(\theta\)</span> e considere uma distribuição a
-priori uniforme para <span class="math inline">\(\theta\)</span>.</p>
-<div id="a-ache-a-distribuição-a-posteriori-de-theta-e-sua-média-e-variância.-1" class="section level4">
-<h4>(a) Ache a distribuição a posteriori de <span class="math inline">\(\theta\)</span> e sua média e variância.</h4>
-</div>
-<div id="b-mostre-que-é-possível-expressar-a-esperança-a-posteriori-de-theta-da-forma-1---wetheta-whattheta-onde-etheta-e-hattheta-são-respectivamente-a-esperança-a-priori-e-a-estimativa-de-máxima-verossimilhança-de-theta-e-interprete-este-resultado.-1" class="section level4">
-<h4>(b) Mostre que é possível expressar a esperança a posteriori de
-<span class="math inline">\(\theta\)</span> da forma <span class="math inline">\((1 - w)E(\theta) + w\hat{\theta}\)</span>, onde
-<span class="math inline">\(E(\theta)\)</span> e <span class="math inline">\(\hat{\theta}\)</span> são, respectivamente, a
-esperança a priori e a estimativa de máxima verossimilhança de <span class="math inline">\(\theta\)</span>, e interprete este resultado.</h4>
-</div>
-<div id="c-se-y_n1-é-uma-observação-futura-deste-processo-de-bernoulli-ache-a-distribuição-preditiva-py_n1y_1-ldots-y_n." class="section level4">
-<h4>(c) Se <span class="math inline">\(y_{n+1}\)</span> é uma observação
-futura deste processo de Bernoulli, ache a distribuição preditiva <span class="math inline">\(p(y_{n+1}|y_1, \ldots, y_n)\)</span>.</h4>
-</div>
-</div>
-<div id="pergunta-4" class="section level3">
-<h3>Pergunta 4</h3>
-<p>Explique precisamente o significado do principio da verossimilhanca.
-Mostre um exemplo da inferencia classica onde ele é violado.</p>
 </div>
 
 

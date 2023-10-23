@@ -201,7 +201,8 @@ A nossa priori é:
 
 $$
 p(\theta) \sim Gama(\alpha,\beta) \\
-
+$$
+$$
 p(\theta) = \frac{\beta^{\alpha}}{\Gamma(\alpha)} \theta^{\alpha - 1} e^{-\beta \theta} \\
 p(\theta) \varpropto  \theta^{\alpha - 1} e^{-\beta \theta}
 $$
