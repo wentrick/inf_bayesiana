@@ -485,6 +485,7 @@ w)\hat{\theta}
 futura da mesma distribuição exponencial, calcule a distribuição
 preditiva <span class="math inline">\(p(x_{n+1} | X)\)</span> e o valor
 esperado <span class="math inline">\(E(X_{n+1} | X)\)</span>.</h4>
+<p>Seja <span class="math inline">\(X = (X_1,...,X_n)\)</span></p>
 <p>Sabemos que:</p>
 <p><span class="math display">\[
 p(\theta | X) \varpropto \theta^{(n+\alpha)-1} e^{-(\beta+ n \bar X)
@@ -494,28 +495,97 @@ p(\theta | X) \varpropto \theta^{(n+\alpha)-1} e^{-(\beta+ n \bar X)
 <p><span class="math display">\[
 \alpha^{\ast} = n+\alpha \ \ \  \ \ \ \beta^{\ast} = \beta+ n \bar X \ \
 \ \sim Gama(\alpha^{\ast},\beta^{\ast})
-\]</span> A verossimilhanca preditiva será:</p>
+\]</span> Vamos calcular a nossa <span class="math inline">\(p(x_{n+1} |
+X)\)</span></p>
 <p><span class="math display">\[
-p(X | \theta) = \prod_{i=1}^{n+1}(\theta e^{-\theta x_i}) = \theta^{n+1}
-e^{-\theta \sum_{i=1}^{n+1} x_i} = \theta^{n+1} e^{-\theta (n+1) \bar X}
-\]</span></p>
-<p>Nossa distribuicao preditiva vai ser dado por:</p>
+p(x_{n+1} | X) = \theta^1e^{-\theta x}
+\]</span> Como estamos obersvando 1 nova observacao entao é encessario
+somente ver como ficaria o calculo de uma distribuicao exponencia com
+n=1</p>
 <p><span class="math display">\[
 \begin{align}
-p(x_{n+1}|X) = \int p(x_{n+1}, \theta|X) d\theta &amp;= \int p(x_{n+1}|
-X,\theta) p(\theta|X) d\theta \\
-&amp;= \int p(x_{n+1}| X,\theta) p(\theta|X) d\theta \\
-&amp;= \int \theta^{n+1} e^{-\theta (n+1) \bar X} \cdot
-\theta^{(n+\alpha)-1} e^{-(\beta+ n \bar X) \theta} d\theta \\
-&amp;= \int \theta^{n+1}  \cdot \theta^{(n+\alpha)-1} \cdot e^{-\theta
-(n+1) \bar X} \cdot  e^{-(\beta+ n \bar X) \theta} d\theta \\
-&amp;= \int \theta^{(n+\alpha)-1+(n+1)} \cdot e^{-(\beta+ n \bar X)
-\theta + (-\theta (n+1) \bar X)} d\theta \\
-&amp;= \int \theta^{n+\alpha-1+n+1)} \cdot e^{-(\beta+ n \bar X) \theta
--\theta (n+1) \bar X} d\theta \\
-&amp;= \int \theta^{2n+\alpha} \cdot e^{-\theta[(\beta+ n \bar X)+(n+1)
-\bar X]} d\theta \\
+p(x_{n+1}|X) &amp;= \int p(\theta|X) \cdot p(X|\theta) d\theta \\
+&amp;= \int \frac{\beta^{\ast\alpha^{\ast}}}{\Gamma(\alpha^{\ast})}
+\theta^{\alpha^{\ast} - 1} e^{-\beta^{\ast} \theta} \cdot
+\theta^1e^{-\theta x} d\theta \\
+&amp;= \int \frac{\beta^{\ast\alpha^{\ast}}}{\Gamma(\alpha^{\ast})}
+\theta^{(\alpha^{\ast} + 1) - 1} e^{-\beta^{\ast} \theta -\theta
+x}  d\theta \\
+&amp;= \int \frac{\beta^{\ast\alpha^{\ast}}}{\Gamma(\alpha^{\ast})}
+\theta^{(\alpha^{\ast} + 1) - 1} e^{-\theta(\beta^{\ast} + x)}  d\theta
+\\
+&amp;= \int \frac{\beta^{\ast\alpha^{\ast}}}{\Gamma(\alpha^{\ast})}
+\theta^{(\alpha^{\ast} + 1) - 1} e^{-\theta(\beta^{\ast} + x)}  d\theta
+\\
 \end{align}
+\]</span> Agora temos que manipular essa integral para dar 1,
+inicialmente vamos chamar de <span class="math inline">\(\alpha^{\prime}
+= \alpha^{\ast} + 1\)</span> <span class="math inline">\(\beta^{\prime}
+= \beta^{\ast} + x\)</span> e logo poderemos perceber que isso parece
+uma <span class="math inline">\(Gama(\alpha^{\prime},\beta^{\prime})\)</span>
+contudo a constante normalizadora (<span class="math inline">\(\frac{\beta^{\ast\alpha^{\ast}}}{\Gamma(\alpha^{\ast})}\)</span>)
+nao esta certa, para isso vamos ter que fazer algumas mudancas</p>
+<p><span class="math display">\[
+\begin{align}
+&amp;= \int \frac{\beta^{\ast\alpha^{\ast}}}{\Gamma(\alpha^{\ast})}
+\theta^{\alpha^{\prime} - 1} e^{-\theta\beta^{\prime}}  d\theta \\
+&amp;= \frac{\Gamma(\alpha^{\prime})}{\Gamma(\alpha^{\prime})}
+\frac{\beta^{\prime\alpha^{\prime}}}{\beta^{\prime\alpha^{\prime}}} \int
+\frac{\beta^{\ast\alpha^{\ast}}}{\Gamma(\alpha^{\ast})}
+\theta^{\alpha^{\prime} - 1} e^{-\theta\beta^{\prime}}  d\theta \\
+&amp;= \frac{\Gamma(\alpha^{\prime})}{\Gamma(\alpha^{\prime})}
+\frac{\beta^{\prime\alpha^{\prime}}}{\beta^{\prime\alpha^{\prime}}}
+\frac{\beta^{\ast\alpha^{\ast}}}{\Gamma(\alpha^{\ast})}
+\int  \theta^{\alpha^{\prime} - 1} e^{-\theta\beta^{\prime}}  d\theta \\
+&amp;=
+\frac{\Gamma(\alpha^{\prime})}{\beta^{\prime\alpha^{\prime}}}  \frac{\beta^{\ast\alpha^{\ast}}}{\Gamma(\alpha^{\ast})}
+\int \frac{\beta^{\prime\alpha^{\prime}}}{\Gamma(\alpha^{\prime})}
+\theta^{\alpha^{\prime} - 1} e^{-\theta\beta^{\prime}}  d\theta \\
+\end{align}
+\]</span></p>
+<p>Agora sabemos que essa integral segue <span class="math inline">\(Gama(\alpha^{\prime},\beta^{\prime})\)</span> logo
+o resultado dela sera 1</p>
+<p>$$ <span class="math display">\[\begin{align}
+&amp;=
+\frac{\Gamma(\alpha^{\prime})}{\Gamma(\alpha^{\ast})}  \frac{\beta^{\ast\alpha^{\ast}}}{\beta^{\prime\alpha^{\prime}}}
+\int \frac{\beta^{\prime\alpha^{\prime}}}{\Gamma(\alpha^{\prime})}
+\theta^{\alpha^{\prime} - 1} e^{-\theta\beta^{\prime}}  d\theta \\
+
+&amp;= \frac{\Gamma(\alpha^{\ast} +
+1)}{\Gamma(\alpha^{\ast})}  \frac{\beta^{\ast\alpha^{\ast}}}{\beta^{\prime\alpha^{\prime}}}
+\\
+
+&amp;=
+\frac{\alpha^{\ast}!}{(\alpha^{\ast}-1)!}  \frac{\beta^{\ast\alpha^{\ast}}}{\beta^{\prime\alpha^{\prime}}}
+\\
+
+&amp;=
+\frac{\alpha^{\ast}(\alpha^{\ast}-1)!}{(\alpha^{\ast}-1)!}   \frac{\beta^{\ast\alpha^{\ast}}}{\beta^{\prime\alpha^{\prime}}}
+\\
+
+&amp;=  \frac{\alpha^{\ast}\beta^{\ast\alpha^{\ast}}}{\beta^{\prime\alpha^{\prime}}}
+\varpropto \frac{1}{\beta^{\prime\alpha^{\prime}}} \\
+\end{align}\]</span> $$</p>
+<p>Obs: <span class="math inline">\(\Gamma(\alpha^{\ast} + 1) =
+\alpha^{\ast}!\)</span> assim como <span class="math inline">\(\Gamma(\alpha^{\ast}) =
+(\alpha^{\ast}-1)!\)</span> sao propriedades da Funcao Gama. Alem disso
+esse resultado final é necessario ter uma interpretacao apra entende-lo.
+tendo em vista que <span class="math inline">\(\alpha^{\ast}\)</span> e
+<span class="math inline">\(\beta^{\ast}\)</span> vinheram do nosso
+calculo da posteriori, ou seja nesse caso ja conhecemos eles, contudo o
+que é novo devido a nova observacao é <span class="math inline">\(\alpha^{\prime}\)</span> e <span class="math inline">\(\beta^{\prime}\)</span> com isso podemos usar a
+proporcionalidade para retirar o que ja sabemos (ja foi observado) para
+aquilo que ainda nao foi que é a distribuicao que queremos
+encontrar.</p>
+<p><span class="math display">\[
+\frac{1}{\beta^{\prime\alpha^{\prime}}} =
+(\frac{1}{\beta^{\prime\alpha^{\prime}}})^{-1} =
+\beta^{\prime-\alpha^{\prime}} = (\beta^{\ast} + x)^{-(\alpha^{\ast} +
+1)} \sim \text{Pareto Tipo II}
+\]</span> A esperanca pode ser calculada :</p>
+<p><span class="math display">\[
+E(p(x_{n+1}|X)) = \frac{\beta^{\ast}}{(\alpha^{\ast} + 1)-1} =
+\frac{\beta+ n \bar X}{n+\alpha}
 \]</span></p>
 </div>
 </div>
@@ -652,16 +722,156 @@ amostra da distribuição de Bernoulli com probabilidade de sucesso <span class=
 priori uniforme para <span class="math inline">\(\theta\)</span>.</p>
 <div id="a-ache-a-distribuição-a-posteriori-de-theta-e-sua-média-e-variância.-1" class="section level4">
 <h4>(a) Ache a distribuição a posteriori de <span class="math inline">\(\theta\)</span> e sua média e variância.</h4>
+<p><span class="math display">\[
+Y = \sum y_i = Binomial(n,\theta)
+\]</span></p>
+<p>Sabemos que para calcular a posteriori podemos usar a seguinte
+formula:</p>
+<p><span class="math display">\[
+p(\theta | X) = \frac{p(X | \theta) \cdot p(\theta)}{p(X)}
+\]</span></p>
+<p>Sabemos que :</p>
+<ul>
+<li><p><span class="math inline">\(p(X | \theta)\)</span> é a nossa
+verossimilhanca</p></li>
+<li><p><span class="math inline">\(p(\theta)\)</span> é a
+priori</p></li>
+<li><p><span class="math inline">\(p(X)\)</span> é a constante de
+normalizacao</p></li>
+</ul>
+<p>Entretanto a posteriori pode ser expressa da seguinte forma:</p>
+<p><span class="math display">\[
+p(\theta | X)  \varpropto  p(X | \theta) \cdot p(\theta)
+\]</span></p>
+<p>Isso significa que a distribuicao a posteriori vai ser proporcional a
+<span class="math inline">\(p(X | \theta) \cdot p(\theta)\)</span>. O
+que faz sentido tendo em vista que tiramos a constante de normalizacao,
+logo nao vao estar na mesma escala e por isso serao proporcionais.</p>
+<p>O problema nos da:</p>
+<ul>
+<li><p><span class="math inline">\(p(X | \theta)\)</span> = <span class="math inline">\({n \brack x}
+\theta^x(1-\theta)^{n-x}\)</span></p></li>
+<li><p><span class="math inline">\(p(\theta)\)</span> = <span class="math inline">\(\frac{1}{b-a}\)</span></p></li>
+</ul>
+<p>Vamos encontrar <span class="math inline">\(p(\theta | X)\)</span>
+nossa verossimilhanca:</p>
+<p>Sabemos que a distribuicao binomial é uma serie de Bernoulli por isso
+usamos ela no calculos da verossimilhanca</p>
+<p><span class="math display">\[
+p(Y | \theta) = \prod_{i=1}^{n}(\theta^{y_i}(1-\theta)^{1-y_i}) =
+\theta^{\sum y_i}(1-\theta)^{n-\sum y_i}
+\]</span></p>
+<p>A nossa priori() segue uma <span class="math inline">\(\text{Uniforme}(0,1)\)</span> porem ela pode ser
+representada por uma <span class="math inline">\(\text{Beta}(1,1)\)</span> por isso no calculo da
+posteriori vamos usar a <span class="math inline">\(\text{Beta}(a,b)\)</span></p>
+<p>$$ (a,b) = <sup>{a-1}(1-)</sup>{b-1} \</p>
+<p>E(X) =       Var(X) = $$</p>
+<p><span class="math display">\[
+z = \sum y_i
+\]</span></p>
+<p>$$</p>
+<p><span class="math display">\[\begin{align}
+
+p(\theta | Y)  &amp;\varpropto  p(Y | \theta) \cdot p(\theta) \\
+
+&amp;\varpropto  \theta^{z}(1-\theta)^{n-z} \cdot \text{Beta}(a,b) \\
+
+&amp;\varpropto  \theta^{z}(1-\theta)^{n-z} \cdot
+\theta^{a-1}(1-\theta)^{b-1} \\
+
+&amp;\varpropto  \theta^{z+(a-1)}(1-\theta)^{(n-z)+(b-1)} \\
+
+&amp;\varpropto  \theta^{(z+a)-1}(1-\theta)^{(n-z+b)-1} \sim
+Beta(z+a,n-z+b) \\
+
+\end{align}\]</span></p>
+<p>$$</p>
+<p><span class="math display">\[
+E(\theta | z) = \frac{z+a}{(z+a) + (n-z+b)}  = \frac{z+a}{a +z+b}  \ \ \
+\ \ Var(\theta | z) =\frac{z+a n-z+b}{(z+a + n-z+b)^2(\alpha+n-z+b+1)} =
+\frac{a+n+b}{(a+n+b)^2(a+n+b+1)}
+\]</span></p>
 </div>
 <div id="b-mostre-que-é-possível-expressar-a-esperança-a-posteriori-de-theta-da-forma-1---wetheta-whattheta-onde-etheta-e-hattheta-são-respectivamente-a-esperança-a-priori-e-a-estimativa-de-máxima-verossimilhança-de-theta-e-interprete-este-resultado.-1" class="section level4">
 <h4>(b) Mostre que é possível expressar a esperança a posteriori de
 <span class="math inline">\(\theta\)</span> da forma <span class="math inline">\((1 - w)E(\theta) + w\hat{\theta}\)</span>, onde
 <span class="math inline">\(E(\theta)\)</span> e <span class="math inline">\(\hat{\theta}\)</span> são, respectivamente, a
 esperança a priori e a estimativa de máxima verossimilhança de <span class="math inline">\(\theta\)</span>, e interprete este resultado.</h4>
+<p>Vamos encontrar o <span class="math inline">\(\hat
+\theta\)</span></p>
+<p>$$ <span class="math display">\[\begin{align}
+\hat \theta &amp;= \frac{\partial }{\partial \theta}
+log(\theta^{z}(1-\theta)^{n-z}) = 0 \\
+&amp;= \frac{\partial }{\partial \theta} z \cdot log(\theta) + (n-z)
+\cdot log(1-\theta) = 0 \\
+&amp;= \frac{z}{\hat \theta}  - \frac{ (n-z)}{1- \hat \theta}   = 0 \\
+&amp;= \frac{z}{\hat \theta} = \frac{ (n-z)}{1- \hat \theta} \\
+&amp;= \frac{1- \hat \theta}{\hat \theta} = \frac{ (n-z)}{z} \\
+&amp;= \frac{1}{\hat \theta} - 1 = \frac{ n}{z} - 1 \\
+&amp;= \frac{1}{\hat \theta}  = \frac{ n}{z}  \\
+&amp;= \hat \theta  = \frac{z}{n}  = \bar Y \\
+
+\end{align}\]</span> $$</p>
+<p><span class="math inline">\(E(\theta)\)</span> é a nossa esperanca a
+priora ou seja é a esperanca que vem da distribuicao <span class="math inline">\(Beta(a,b)\)</span></p>
+<p><span class="math display">\[
+E(\theta) = \frac{\alpha}{\alpha + \beta}
+\]</span></p>
+<p>Vamos para a prova:</p>
+<p><span class="math display">\[
+\begin{align}
+\theta_{post} &amp;= \frac{a+z}{a+b+n} \\
+&amp;= \frac{a}{a+b+n}+\frac{z}{a+b+n} \\
+&amp;= \frac{a}{a+b+n}\cdot \frac{(a+b)}{(a+b)}+\frac{z}{a+b+n} \cdot
+\frac{n}{n} \\
+&amp;= \frac{(a+b)}{a+b+n}\cdot \frac{a}{(a+b)}+\frac{n}{a+b+n} \cdot
+\frac{z}{n} \\
+&amp;= \frac{(a+b)}{a+b+n}\cdot E(\theta)+\frac{n}{a+b+n} \cdot \hat
+\theta \\
+\end{align}
+\]</span></p>
+<ul>
+<li><p><span class="math inline">\(w = \frac{n}{a+b+n}\)</span></p></li>
+<li><p><span class="math inline">\(1-w =
+\frac{(a+b)}{a+b+n}\)</span></p></li>
+</ul>
 </div>
 <div id="c-se-y_n1-é-uma-observação-futura-deste-processo-de-bernoulli-ache-a-distribuição-preditiva-py_n1y_1-ldots-y_n." class="section level4">
 <h4>(c) Se <span class="math inline">\(y_{n+1}\)</span> é uma observação
 futura deste processo de Bernoulli, ache a distribuição preditiva <span class="math inline">\(p(y_{n+1}|y_1, \ldots, y_n)\)</span>.</h4>
+<p><span class="math display">\[
+T = x_{n+1} \sim \text{Bernoulli}(\theta)
+\]</span> Nos queremos encontrar <span class="math inline">\(p(T|y)\)</span> que vai ser nossa distribuicao
+preditiva para isso vamos ter que encontra-lá a aprtir da nossa
+distribuicao conjunta:</p>
+<p><span class="math display">\[
+\begin{align}
+p(\theta,y,T) &amp;= p(\theta) \cdot p(y|\theta) \cdot p(T|\theta) \\
+p(\theta,T|y)  p(y) &amp;= p(\theta) \cdot p(y|\theta) \cdot p(T|\theta)
+\\
+p(\theta,T|y)  &amp;= \frac{p(\theta) \cdot p(y|\theta)}{p(y)} \cdot
+p(T|\theta) \\
+p(\theta,T|y)  &amp;= p(\theta|y) \cdot p(T|\theta) \\
+\end{align}
+\]</span></p>
+<p>Agora que fizemos as devidas manipulacoes e encontramos a posteriori,
+podemos marginalizar essa condicional, ou seja integrar em relacao a que
+com isso encontramos a distribuicao preditiva:</p>
+<p><span class="math display">\[
+\begin{align}
+p(T|y) &amp;= \int_{\theta}p(\theta,T|y)d\theta  =
+\int_{\theta}  p(\theta|y) \cdot p(T|\theta) d\theta \\
+p(T|y) &amp;= \int_{\theta}  p(\theta|y) \cdot p(T|\theta) d\theta \\
+p(T|y) &amp;= \int_{\theta}  Beta(z+a,n-z+b) \cdot Bernoulli(\theta)
+d\theta\\
+p(T|y) &amp;= \int_{\theta} \frac{1}{Beta(z+a,n-z+b)}
+\theta^{(z+a)-1}(1-\theta)^{(n-z+b)-1} \cdot
+\theta^{T}(1-\theta)^{1-T}  d\theta\\
+p(T|y) &amp;= \int_{\theta} \frac{1}{Beta(z+a,n-z+b)}
+\theta^{(z+a)-1}(1-\theta)^{(n-z+b)-1} \cdot
+\theta^{T}(1-\theta)^{1-T}  d\theta\\
+\end{align}
+\]</span></p>
 </div>
 </div>
 <div id="pergunta-4" class="section level3">

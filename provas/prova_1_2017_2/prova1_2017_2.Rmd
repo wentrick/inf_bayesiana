@@ -180,15 +180,28 @@ Agora sabemos que essa integral segue $Gama(\alpha^{\prime},\beta^{\prime})$ log
 $$
 \begin{align}
 &= \frac{\Gamma(\alpha^{\prime})}{\Gamma(\alpha^{\ast})}  \frac{\beta^{\ast\alpha^{\ast}}}{\beta^{\prime\alpha^{\prime}}} \int \frac{\beta^{\prime\alpha^{\prime}}}{\Gamma(\alpha^{\prime})} \theta^{\alpha^{\prime} - 1} e^{-\theta\beta^{\prime}}  d\theta \\
+
 &= \frac{\Gamma(\alpha^{\ast} + 1)}{\Gamma(\alpha^{\ast})}  \frac{\beta^{\ast\alpha^{\ast}}}{\beta^{\prime\alpha^{\prime}}} \\
-&= \frac{(\alpha^{\ast} + 1)\Gamma(\alpha^{\ast})}{\Gamma(\alpha^{\ast})}  \frac{\beta^{\ast\alpha^{\ast}}}{\beta^{\prime\alpha^{\prime}}} \\
-&= \frac{(\alpha^{\ast} + 1)\Gamma(\alpha^{\ast})}{\Gamma(\alpha^{\ast})}  \frac{\beta^{\ast\alpha^{\ast}}}{\beta^{\prime\alpha^{\prime}}} \\
-&= \frac{\Gamma(\alpha^{\prime})}{\Gamma(\alpha^{\ast})}  \frac{\beta^{\ast\alpha^{\ast}}}{\beta^{\prime\alpha^{\prime}}} \varpropto \frac{1}{\beta^{\prime\alpha^{\prime}}} \\
+
+&= \frac{\alpha^{\ast}!}{(\alpha^{\ast}-1)!}  \frac{\beta^{\ast\alpha^{\ast}}}{\beta^{\prime\alpha^{\prime}}} \\
+
+&= \frac{\alpha^{\ast}(\alpha^{\ast}-1)!}{(\alpha^{\ast}-1)!}   \frac{\beta^{\ast\alpha^{\ast}}}{\beta^{\prime\alpha^{\prime}}} \\
+
+&=  \frac{\alpha^{\ast}\beta^{\ast\alpha^{\ast}}}{\beta^{\prime\alpha^{\prime}}} \varpropto \frac{1}{\beta^{\prime\alpha^{\prime}}} \\
 \end{align}
 $$
 
+Obs: $\Gamma(\alpha^{\ast} + 1) = \alpha^{\ast}!$ assim como $\Gamma(\alpha^{\ast}) =  (\alpha^{\ast}-1)!$ sao propriedades da Funcao Gama. Alem disso esse resultado final é necessario ter uma interpretacao apra entende-lo. tendo em vista que $\alpha^{\ast}$ e $\beta^{\ast}$ vinheram do nosso calculo da posteriori, ou seja nesse caso ja conhecemos eles, contudo o que é novo devido a nova observacao é $\alpha^{\prime}$ e $\beta^{\prime}$ com isso podemos usar a proporcionalidade para retirar o que ja sabemos (ja foi observado) para aquilo que ainda nao foi que é a distribuicao que queremos encontrar.
 
-Nossa distribuicao preditiva vai ser dado por:
+
+$$
+\frac{1}{\beta^{\prime\alpha^{\prime}}} = (\frac{1}{\beta^{\prime\alpha^{\prime}}})^{-1} = \beta^{\prime-\alpha^{\prime}} = (\beta^{\ast} + x)^{-(\alpha^{\ast} + 1)} \sim \text{Pareto Tipo II}
+$$
+A esperanca pode ser calculada :
+
+$$
+E(p(x_{n+1}|X)) = \frac{\beta^{\ast}}{(\alpha^{\ast} + 1)-1} = \frac{\beta+ n \bar X}{n+\alpha}
+$$
 
 
 
@@ -313,13 +326,154 @@ Seja \(y_1, y_2, \ldots, y_n\) uma amostra da distribuição de Bernoulli com pr
 
 #### (a) Ache a distribuição a posteriori de \(\theta\) e sua média e variância.
 
+$$
+Y = \sum y_i = Binomial(n,\theta)
+$$
 
+
+Sabemos que para calcular a posteriori podemos usar a seguinte formula:
+
+
+$$
+p(\theta | X) = \frac{p(X | \theta) \cdot p(\theta)}{p(X)} 
+$$
+
+Sabemos que :
+
++ $p(X | \theta)$ é a nossa verossimilhanca 
+
++ $p(\theta)$ é a priori
+
++ $p(X)$ é a constante de normalizacao 
+
+Entretanto a posteriori pode ser expressa da seguinte forma:
+
+$$
+p(\theta | X)  \varpropto  p(X | \theta) \cdot p(\theta) 
+$$
+
+Isso significa que a distribuicao a posteriori vai ser proporcional a $p(X | \theta) \cdot p(\theta)$. O que faz sentido tendo em vista que tiramos a constante de normalizacao, logo nao vao estar na mesma escala e por isso serao proporcionais.
+
+O problema nos da:
+
++ $p(X | \theta)$ = ${n \brack x} \theta^x(1-\theta)^{n-x}$
+
++ $p(\theta)$ = $\frac{1}{b-a}$
+
+
+Vamos encontrar $p(\theta | X)$ nossa verossimilhanca:
+
+Sabemos que a distribuicao binomial é uma serie de Bernoulli por isso usamos ela no calculos da verossimilhanca
+
+$$
+p(Y | \theta) = \prod_{i=1}^{n}(\theta^{y_i}(1-\theta)^{1-y_i}) = \theta^{\sum y_i}(1-\theta)^{n-\sum y_i} 
+$$
+
+A nossa priori(\theta) segue uma $\text{Uniforme}(0,1)$ porem ela pode ser representada por uma $\text{Beta}(1,1)$ por isso no calculo da posteriori vamos usar a $\text{Beta}(a,b)$
+
+$$
+\text{Beta}(a,b) = \theta^{a-1}(1-\theta)^{b-1} \\
+
+E(X) = \frac{\alpha}{\alpha + \beta} \ \ \  \ \ Var(X) = \frac{\alpha \beta}{(\alpha + \beta)^2(\alpha+\beta+1)}
+$$
+
+$$
+z = \sum y_i
+$$
+
+$$
+
+\begin{align}
+
+p(\theta | Y)  &\varpropto  p(Y | \theta) \cdot p(\theta) \\
+
+&\varpropto  \theta^{z}(1-\theta)^{n-z} \cdot \text{Beta}(a,b) \\
+
+&\varpropto  \theta^{z}(1-\theta)^{n-z} \cdot \theta^{a-1}(1-\theta)^{b-1} \\
+
+&\varpropto  \theta^{z+(a-1)}(1-\theta)^{(n-z)+(b-1)} \\
+
+&\varpropto  \theta^{(z+a)-1}(1-\theta)^{(n-z+b)-1} \sim Beta(z+a,n-z+b) \\
+
+\end{align}
+
+$$
+
+
+$$
+E(\theta | z) = \frac{z+a}{(z+a) + (n-z+b)}  = \frac{z+a}{a +z+b}  \ \ \ \ \ Var(\theta | z) =\frac{z+a n-z+b}{(z+a + n-z+b)^2(\alpha+n-z+b+1)} = \frac{a+n+b}{(a+n+b)^2(a+n+b+1)}
+$$
 
 #### (b) Mostre que é possível expressar a esperança a posteriori de \(\theta\) da forma \((1 - w)E(\theta) + w\hat{\theta}\), onde \(E(\theta)\) e \(\hat{\theta}\) são, respectivamente, a esperança a priori e a estimativa de máxima verossimilhança de \(\theta\), e interprete este resultado.
 
+Vamos encontrar o $\hat \theta$
 
+$$
+\begin{align}
+\hat \theta &= \frac{\partial }{\partial \theta} log(\theta^{z}(1-\theta)^{n-z}) = 0 \\ 
+&= \frac{\partial }{\partial \theta} z \cdot log(\theta) + (n-z) \cdot log(1-\theta) = 0 \\ 
+&= \frac{z}{\hat \theta}  - \frac{ (n-z)}{1- \hat \theta}   = 0 \\ 
+&= \frac{z}{\hat \theta} = \frac{ (n-z)}{1- \hat \theta} \\ 
+&= \frac{1- \hat \theta}{\hat \theta} = \frac{ (n-z)}{z} \\ 
+&= \frac{1}{\hat \theta} - 1 = \frac{ n}{z} - 1 \\
+&= \frac{1}{\hat \theta}  = \frac{ n}{z}  \\
+&= \hat \theta  = \frac{z}{n}  = \bar Y \\
+
+\end{align}
+$$
+
+$E(\theta)$ é a nossa esperanca a priora ou seja é a esperanca que vem da distribuicao $Beta(a,b)$
+
+$$
+E(\theta) = \frac{\alpha}{\alpha + \beta}
+$$
+
+Vamos para a prova:
+
+$$
+\begin{align}
+\theta_{post} &= \frac{a+z}{a+b+n} \\
+&= \frac{a}{a+b+n}+\frac{z}{a+b+n} \\
+&= \frac{a}{a+b+n}\cdot \frac{(a+b)}{(a+b)}+\frac{z}{a+b+n} \cdot \frac{n}{n} \\
+&= \frac{(a+b)}{a+b+n}\cdot \frac{a}{(a+b)}+\frac{n}{a+b+n} \cdot \frac{z}{n} \\
+&= \frac{(a+b)}{a+b+n}\cdot E(\theta)+\frac{n}{a+b+n} \cdot \hat \theta \\
+\end{align}
+$$
+
++ $w = \frac{n}{a+b+n}$
+
++ $1-w =  \frac{(a+b)}{a+b+n}$
 
 #### (c) Se \(y_{n+1}\) é uma observação futura deste processo de Bernoulli, ache a distribuição preditiva \(p(y_{n+1}|y_1, \ldots, y_n)\).
+
+$$
+T = x_{n+1} \sim \text{Bernoulli}(\theta)
+$$
+Nos queremos encontrar $p(T|y)$ que vai ser nossa distribuicao preditiva para isso vamos ter que encontra-lá a aprtir da nossa distribuicao conjunta:
+
+$$
+\begin{align}
+p(\theta,y,T) &= p(\theta) \cdot p(y|\theta) \cdot p(T|\theta) \\
+p(\theta,T|y)  p(y) &= p(\theta) \cdot p(y|\theta) \cdot p(T|\theta) \\
+p(\theta,T|y)  &= \frac{p(\theta) \cdot p(y|\theta)}{p(y)} \cdot p(T|\theta) \\
+p(\theta,T|y)  &= p(\theta|y) \cdot p(T|\theta) \\
+\end{align}
+$$
+
+Agora que fizemos as devidas manipulacoes e encontramos a posteriori, podemos marginalizar essa condicional, ou seja integrar em relacao a \theta que com isso encontramos a distribuicao preditiva:
+
+$$
+\begin{align}
+p(T|y) &= \int_{\theta}p(\theta,T|y)d\theta  = \int_{\theta}  p(\theta|y) \cdot p(T|\theta) d\theta \\
+p(T|y) &= \int_{\theta}  p(\theta|y) \cdot p(T|\theta) d\theta \\
+p(T|y) &= \int_{\theta}  Beta(z+a,n-z+b) \cdot Bernoulli(\theta) d\theta\\
+p(T|y) &= \int_{\theta} \frac{1}{Beta(z+a,n-z+b)} \theta^{(z+a)-1}(1-\theta)^{(n-z+b)-1} \cdot \theta^{T}(1-\theta)^{1-T}  d\theta\\
+p(T|y) &= \int_{\theta} \frac{1}{Beta(z+a,n-z+b)} \theta^{(z+a)-1}(1-\theta)^{(n-z+b)-1} \cdot \theta^{T}(1-\theta)^{1-T}  d\theta\\
+\end{align}
+$$
+
+
+
 
 ### Pergunta 4
 
