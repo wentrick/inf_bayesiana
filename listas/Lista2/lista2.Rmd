@@ -1,0 +1,415 @@
+---
+title: "Lista 2 Bayesiana"
+author: "Davi Wentrick Feijó - 200016806"
+date: "2024-12-02"
+output: html_document
+---
+
+### Questao 1)
+
+#### O seu professor chega na sala de aula e mostra uma moeda. Você suspeita que a moeda possa ser falsa e ter duas caras. Considere a priori probabilidades iguais para os eventos da moeda ser falsa ou ser honesta (i.e. uma moeda bem equilibrada).
+
+
+##### **(i) Calcule a sua probabilidade de obter cara num lançamento dessa moeda.** 
+
+**Dados:**
+
+- Probabilidade de a moeda ser honesta: \( P(H) = 0.5 \) 
+
+- Probabilidade de a moeda ser falsa: \( P(F) = 0.5 \) 
+
+- Probabilidade de obter "cara" com moeda honesta: \( P(C_1 \mid H) = 0.5 \) 
+
+- Probabilidade de obter "cara" com moeda falsa: \( P(C_1 \mid F) = 1 \) 
+
+**Fórmula da probabilidade total:**
+$$
+P(C_1) = P(C_1 \mid H)P(H) + P(C_1 \mid F)P(F)
+$$
+
+**Cálculo:**
+$$
+P(C_1) = (0.5 \times 0.5) + (1 \times 0.5) \\
+P(C_1) = 0.25 + 0.5 = 0.75
+$$
+
+**Resultado:**
+A probabilidade de obter "cara" no primeiro lançamento é **0.75**.
+
+##### **(ii) Se o professor lançar a moeda e o resultado for cara, qual é agora a probabilidade dela ser falsa?**
+
+**Queremos calcular:** \( P(F \mid C_1) \), a probabilidade de a moeda ser falsa dado que o resultado foi "cara".
+
+**Usando o Teorema de Bayes:**
+
+$$
+P(F \mid C_1) = \frac{P(C_1 \mid F) P(F)}{P(C_1)}
+$$
+
+**Dados:**
+
+- \( P(C_1 \mid F) = 1 \) (se a moeda é falsa, sempre dá "cara").
+
+- \( P(F) = 0.5 \) (a priori, a moeda tem 50% de chance de ser falsa).
+
+- \( P(C_1) = 0.75 \) (calculado anteriormente).
+
+**Cálculo:**
+
+$$
+P(F \mid C_1) = \frac{P(C_1 \mid F) P(F)}{P(C_1)} = \frac{1 \times 0.5}{0.75} = \frac{0.5}{0.75} = \frac{2}{3}
+$$
+
+**Resultado:**
+A probabilidade de a moeda ser falsa, dado que o resultado do lançamento foi "cara", é \( \frac{2}{3} \) ou aproximadamente **66.67%**.
+
+##### **(iii) Se o professor lançar a moeda $n$ vezes e obter $n$ caras, qual é a probabilidade dela ser falsa? Estude o comportamento desta probabilidade para $n$ grande.** 
+
+**Queremos calcular:** \( P(F \mid C^n) \), a probabilidade de a moeda ser falsa dado que todos os \( n \) lançamentos resultaram em "cara".
+
+**Usando o Teorema de Bayes:**
+
+$$
+P(F \mid C^n) = \frac{P(C^n \mid F) P(F)}{P(C^n)}
+$$
+
+**Dados:**
+
+- \( P(F) = 0.5 \) (a priori, a moeda é falsa).
+
+- \( P(H) = 0.5 \) (a priori, a moeda é honesta).
+
+- \( P(C^n \mid F) = 1 \) (se a moeda é falsa, todos os \( n \) lançamentos resultam em "cara").
+
+- \( P(C^n \mid H) = 0.5^n \) (se a moeda é honesta, a probabilidade de obter \( n \) caras é \( 0.5^n \)).
+
+**Probabilidade total \( P(C^n) \):**
+
+$$
+P(C^n) = P(C^n \mid H)P(H) + P(C^n \mid F)P(F) \\
+P(C^n) = (0.5^n \times 0.5) + (1 \times 0.5) = 0.5^{n+1} + 0.5
+$$
+
+**Substituímos na fórmula de Bayes:**
+
+$$
+P(F \mid C^n) = \frac{P(C^n \mid F) P(F)}{P(C^n)} = \frac{1 \times 0.5}{0.5^{n+1} + 0.5}
+$$
+
+**Comportamento para \( n \) grande:**
+
+- O termo \( 0.5^n \) decresce exponencialmente para \( n \) grande.
+
+- Assim, \( 0.5^{n+1} \to 0 \), e a expressão se simplifica:
+
+$$
+P(F \mid C^n) \approx \frac{0.5}{0.5} = 1
+$$
+
+**Resultado:**
+
+Conforme \( n \to \infty \), a probabilidade de a moeda ser falsa tende a **1** (ou 100%).
+
+**Conclusão:** 
+Se o professor lançar a moeda \( n \) vezes e obter \( n \) caras, a probabilidade de a moeda ser falsa se aproxima de 1 conforme \( n \) aumenta.
+
+##### **(iv) Se o professor lançar a moeda uma vez e obter cara, qual é a probabilidade do próximo lançamento ser cara?** 
+
+**Queremos calcular:** \( P(C_2 \mid C_1) \), a probabilidade de obter "cara" no próximo lançamento dado que o primeiro lançamento resultou em "cara".
+
+**Passos:**
+
+1. Após o primeiro lançamento resultar em "cara", a probabilidade de a moeda ser falsa (\( P(F \mid C_1) \)) foi calculada como:
+
+$$
+   P(F \mid C_1) = \frac{2}{3}
+$$
+A probabilidade de a moeda ser honesta (\( P(H \mid C_1) \)) é:\
+   
+$$
+   P(H \mid C_1) = 1 - P(F \mid C_1) = 1 - \frac{2}{3} = \frac{1}{3}
+$$
+
+2. Usamos a fórmula:
+
+$$
+   P(C_2 \mid C_1) = P(C_2 \mid F)P(F \mid C_1) + P(C_2 \mid H)P(H \mid C_1)
+$$
+
+**Dados:**
+
+- \( P(C_2 \mid F) = 1 \) (se a moeda é falsa, sempre dá "cara").
+   
+- \( P(C_2 \mid H) = 0.5 \) (se a moeda é honesta, a probabilidade de "cara" é 0.5).
+
+- \( P(F \mid C_1) = \frac{2}{3} \), \( P(H \mid C_1) = \frac{1}{3} \).
+
+3. Substituímos os valores:
+
+$$
+   P(C_2 \mid C_1) = \left(1 \times \frac{2}{3}\right) + \left(0.5 \times \frac{1}{3}\right) \\
+   P(C_2 \mid C_1) = \frac{2}{3} + \frac{1}{6} \\
+   P(C_2 \mid C_1) = \frac{4}{6} + \frac{1}{6} = \frac{5}{6} \\
+$$
+
+**Resultado:**
+
+A probabilidade de obter "cara" no próximo lançamento, dado que o primeiro lançamento resultou em "cara", é:
+
+$$
+P(C_2 \mid C_1) = \frac{5}{6} \approx 83.33\%
+$$
+
+##### **(v) Explique porque é falso neste contexto a afirmação "os dois lançamentos da moeda são independentes", e explique qual seria a afirmação correta.**
+
+**Contexto:** A afirmação "os dois lançamentos da moeda são independentes" é **falsa** porque o resultado de cada lançamento influencia nossa crença sobre a natureza da moeda (se ela é honesta ou falsa). Essa mudança na crença altera as probabilidades dos resultados subsequentes.
+
+Dois eventos \( A \) e \( B \) são independentes se, e somente se:
+
+$$
+P(A \cap B) = P(A) \cdot P(B)
+$$
+
+Ou, de forma equivalente:
+
+$$
+P(B \mid A) = P(B)
+$$
+Se os lançamentos fossem independentes, o resultado de um lançamento não alteraria a probabilidade do próximo. Porém, neste contexto:
+
+1. O resultado do primeiro lançamento (\( C_1 \)) altera nossa crença sobre a natureza da moeda.
+
+2. Essa mudança de crença afeta a probabilidade do segundo lançamento (\( C_2 \)).
+
+Por exemplo:
+
+- A probabilidade do segundo lançamento resultar em "cara", \( P(C_2 \mid C_1) \), é calculada considerando a probabilidade de a moeda ser honesta ou falsa, que depende do resultado do primeiro lançamento.
+
+- Assim, \( P(C_2 \mid C_1) \neq P(C_2) \), evidenciando que os lançamentos não são independentes.
+
+A afirmação correta seria: **"Os dois lançamentos da moeda são condicionalmente dependentes."**
+
+Isso significa que:
+
+- Dados \( C_1 \), o resultado do primeiro lançamento, o segundo lançamento (\( C_2 \)) tem sua probabilidade ajustada conforme nossa crença sobre a natureza da moeda.
+
+Em resumo:
+
+- Os lançamentos não são independentes porque o resultado de um afeta a probabilidade do outro.
+
+- Essa dependência decorre da incerteza sobre a natureza da moeda (honesta ou falsa), que é ajustada condicionalmente ao observar o resultado de um lançamento.
+
+
+### Questao 2)
+
+#### Seja $y_1, y_2, \ldots, y_n$ uma amostra da distribuição de Bernoulli com probabilidade de sucesso $\theta$ e considere uma distribuição a priori uniforme para $\theta$. 
+
+##### (i) Ache a distribuição a posteriori de $\theta$ e a sua média e variância. 
+
+**Dado:**
+
+- A função de probabilidade de uma variável Bernoulli é:
+
+$$
+P(X=x \mid p)=p^x(1-p)^{1-x}, \quad x \in\{0,1\}
+$$
+
+- A verossimilhança para uma amostra de Bernoulli é:
+
+$$
+
+P\left(y_1, y_2, \ldots, y_n \mid \theta\right)= \prod_{i=1}^n \theta^{y_i}(1-\theta)^{1-y_i} \\
+
+P\left(y_1, y_2, \ldots, y_n \mid \theta\right)=\theta^{\sum_{i=1}^n y_i}(1-\theta)^{n-\sum_{i=1}^n y_i} \\
+
+P(y_1, y_2, \ldots, y_n \mid \theta) = \theta^k(1-\theta)^{n-k}, \quad \text{onde } k = \sum_{i=1}^n y_i
+
+$$
+
+- A priori de \( \theta \) é uniforme no intervalo \([0,1]\):
+
+$$
+P(\theta) = 1, \quad \text{para } \theta \in [0,1]
+$$
+
+**Distribuição a Posteriori:**
+
+$$
+P(\theta \mid y_1, y_2, \ldots, y_n) \propto P(y_1, y_2, \ldots, y_n \mid \theta) \cdot P(\theta)
+$$
+
+Substituindo:
+
+$$
+
+P\left(\theta \mid y_1, y_2, \ldots, y_n\right) \propto \theta^k(1-\theta)^{n-k} \cdot 1 \\
+
+P(\theta \mid y_1, y_2, \ldots, y_n) \propto \theta^k(1-\theta)^{n-k}
+
+$$
+
+Essa é a forma de uma distribuição **Beta** com parâmetros:
+
+$$
+\theta \mid y_1, y_2, \ldots, y_n \sim \text{Beta}(k+1, n-k+1)
+$$
+
+Para uma distribuição \( \text{Beta}(\alpha, \beta) \):
+
+- Média:
+
+$$
+\mathbb{E}[\theta] = \frac{\alpha}{\alpha + \beta}
+$$
+
+- Variância:
+
+$$
+\text{Var}(\theta) = \frac{\alpha \beta}{(\alpha + \beta)^2 (\alpha + \beta + 1)}
+$$
+
+**Substituindo os Parâmetros:**
+
+- \( \alpha = k+1 \), \( \beta = n-k+1 \)
+
+**Média:**
+
+$$
+\mathbb{E}[\theta \mid y_1, y_2, \ldots, y_n] = \frac{k+1}{(k+1) + (n-k+1)} = \frac{k+1}{n+2}
+$$
+
+**Variância:**
+
+$$
+\text{Var}[\theta \mid y_1, y_2, \ldots, y_n] = \frac{(k+1)(n-k+1)}{((k+1)+(n-k+1))^2((k+1)+(n-k+1)+1)} \\
+
+\text{Var}[\theta \mid y_1, y_2, \ldots, y_n] = \frac{(k+1)(n-k+1)}{(n+2)^2(n+3)}
+$$
+
+1. A distribuição a posteriori de \( \theta \) é:
+
+$$
+\theta \mid y_1, y_2, \ldots, y_n \sim \text{Beta}(k+1, n-k+1)
+$$
+
+2. A média da posteriori é:
+
+$$
+\mathbb{E}[\theta \mid y_1, y_2, \ldots, y_n] = \frac{k+1}{n+2}
+$$
+
+3. A variância da posteriori é:
+
+$$
+\text{Var}[\theta \mid y_1, y_2, \ldots, y_n] = \frac{(k+1)(n-k+1)}{(n+2)^2(n+3)}
+$$
+
+##### (ii) Mostre que é possível expressar a esperança a posteriori de $\theta$ da forma $(1-w) E(\theta)+w \hat{\theta}$, onde $E(\theta)$ e $\hat{\theta}$ são respectivamente a esperança a priori e a estimativa máximo verossímil de $\theta$, e interprete este resultado. 
+
+**Dado:**
+
+- A distribuição a posteriori de \( \theta \) é:
+
+$$
+\theta \mid y_1, y_2, \ldots, y_n \sim \text{Beta}(k+1, n-k+1)
+$$
+
+- A esperança a posteriori é:
+
+$$
+\mathbb{E}[\theta \mid y_1, y_2, \ldots, y_n] = \frac{k+1}{n+2}
+$$
+
+- A priori, \( \theta \sim \text{Uniforme}(0,1) \), cuja esperança é:
+
+$$
+\mathbb{E}[\theta] = \frac{1}{2}
+$$
+
+- A estimativa de máxima verossimilhança (MLE) para \( \theta \) em uma amostra Bernoulli é:
+
+$$
+\hat{\theta} = \frac{k}{n}
+$$
+
+
+Queremos mostrar que:
+
+$$
+\mathbb{E}[\theta \mid y_1, y_2, \ldots, y_n] = \frac{k+1}{n+2}
+$$
+
+pode ser escrita como uma média ponderada entre \( \mathbb{E}[\theta] = \frac{1}{2} \) (a priori) e \( \hat{\theta} = \frac{k}{n} \) (MLE).
+
+Reescrevemos:
+
+$$
+\frac{k+1}{n+2} = \left(1 - \frac{2}{n+2}\right) \times \frac{1}{2} + \frac{2}{n+2} \times \frac{k}{n}
+$$
+
+Expandimos a expressão:
+
+$$
+\left(1 - \frac{2}{n+2}\right) \times \frac{1}{2} + \frac{2}{n+2} \times \frac{k}{n} = \frac{1}{2} - \frac{1}{n+2} + \frac{2k}{n(n+2)}
+$$
+
+Manipulação algébrica adicional:
+
+$$
+\frac{k+1}{n+2} = \frac{n}{2(n+2)} + \frac{2k}{n(n+2)} \\
+
+\frac{k+1}{n+2} = \frac{1}{2} \left(\frac{n}{n+2}\right) + \left(\frac{2}{n+2}\right) \times \frac{k}{n}
+$$
+
+Definimos:
+- \( w = \frac{2}{n+2} \)
+- \( 1-w = \frac{n}{n+2} \)
+
+Assim, a esperança a posteriori é:
+
+$$
+\mathbb{E}[\theta \mid y_1, y_2, \ldots, y_n] = (1-w) \cdot \frac{1}{2} + w \cdot \hat{\theta}
+$$
+
+
+- Quando \( n \) é pequeno (\( w \) grande), o peso maior está na esperança **a priori** (\( \frac{1}{2} \)).
+
+- Quando \( n \) é grande (\( w \) pequeno), o peso maior está na estimativa de máxima verossimilhança (\( \hat{\theta} \)).
+
+Essa formulação reflete que:
+
+- **Com amostras pequenas**, nossas crenças a priori têm maior influência sobre a estimativa de \( \theta \).
+
+- **Com amostras grandes**, a evidência observada domina, e \( \mathbb{E}[\theta \mid y_1, y_2, \ldots, y_n] \) se aproxima da MLE.
+
+
+##### (iii) Se $y_{n+1}$ é uma observação futura deste processo de Bernoulli, ache a distribuição preditiva $p\left(y_{n+1} \mid y_1, \ldots y_n\right)$.
+
+### Questao 3)
+
+#### Seja $y_1, y_2, \ldots, y_n$ uma amostra da distribuição de Bernoulli com probabilidade de sucesso $\theta$ e suponha que, a priori, $\eta=\operatorname{logit}(\theta)=\log \frac{\theta}{1-\theta}$ segue uma distribuição Normal com média $\mu=0$ e desvio padrão $\sigma=10$. 
+
+##### (i) Ache a densidade a priori de $\theta$. 
+
+##### (ii) No caso que $n=12$ e $s=\sum_{i=1}^{12} y_i=9$, calcule numericamente uma aproximação para a densidade a posteriori. 
+
+##### (iii) No caso anterior, faça um gráfico comparando a distribuição a posteriori com a que seria obtida quando a priori $\theta \sim \operatorname{Uniforme}(0,1)$ (i.é. a distribuição Beta $\operatorname{com} \alpha=10$ e $\beta=4)$.
+
+
+### Questao 4)
+
+#### No exercício 2, calcule: 
+
+##### (i) a estimativa bayesiana para Perda Quadrática e (ii) o limite da estimativa bayesiana para Perda Zero-Um quando $\epsilon \rightarrow 0$. No caso especial que $n=12, s=\sum_{i=1}^{12} y_i=9$, calcule (iii) a estimativa bayesiana sob Perda Absoluta e (iv) um intervalo HPD com nível $99 \%$.
+
+
+
+
+
+
+
+
+
+
+
+
