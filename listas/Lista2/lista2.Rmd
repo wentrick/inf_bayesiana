@@ -2,15 +2,31 @@
 title: "Lista 2 Bayesiana"
 author: "Davi Wentrick Feijó - 200016806"
 date: "2024-12-02"
-output: html_document
+output: 
+  rmdformats::downcute:
+    self_contained: true
+    thumbnails: false
+    lightbox: false
+    gallery: false
+    highlight: tango
+    toc_depth : 4
+  html_document:
+    toc: false
+    toc_depth: 5
+    toc_float: true
 ---
 
-### Questao 1)
+```{r include=FALSE}
+# Carregando bibliotecas necessárias
+pacman::p_load(ggplot2,pracma,extraDistr)
+```
 
-#### O seu professor chega na sala de aula e mostra uma moeda. Você suspeita que a moeda possa ser falsa e ter duas caras. Considere a priori probabilidades iguais para os eventos da moeda ser falsa ou ser honesta (i.e. uma moeda bem equilibrada).
 
+### **Questao 1**
 
-##### **(i) Calcule a sua probabilidade de obter cara num lançamento dessa moeda.** 
+O seu professor chega na sala de aula e mostra uma moeda. Você suspeita que a moeda possa ser falsa e ter duas caras. Considere a priori probabilidades iguais para os eventos da moeda ser falsa ou ser honesta (i.e. uma moeda bem equilibrada).
+
+##### **(i)** Calcule a sua probabilidade de obter cara num lançamento dessa moeda. 
 
 **Dados:**
 
@@ -36,9 +52,11 @@ $$
 **Resultado:**
 A probabilidade de obter "cara" no primeiro lançamento é **0.75**.
 
-##### **(ii) Se o professor lançar a moeda e o resultado for cara, qual é agora a probabilidade dela ser falsa?**
+---
 
-**Queremos calcular:** \( P(F \mid C_1) \), a probabilidade de a moeda ser falsa dado que o resultado foi "cara".
+##### **(ii)** Se o professor lançar a moeda e o resultado for cara, qual é agora a probabilidade dela ser falsa?
+
+Queremos calcular: \( P(F \mid C_1) \), a probabilidade de a moeda ser falsa dado que o resultado foi "cara".
 
 **Usando o Teorema de Bayes:**
 
@@ -63,7 +81,9 @@ $$
 **Resultado:**
 A probabilidade de a moeda ser falsa, dado que o resultado do lançamento foi "cara", é \( \frac{2}{3} \) ou aproximadamente **66.67%**.
 
-##### **(iii) Se o professor lançar a moeda $n$ vezes e obter $n$ caras, qual é a probabilidade dela ser falsa? Estude o comportamento desta probabilidade para $n$ grande.** 
+---
+
+##### **(iii)** Se o professor lançar a moeda $n$ vezes e obter $n$ caras, qual é a probabilidade dela ser falsa? Estude o comportamento desta probabilidade para $n$ grande. 
 
 **Queremos calcular:** \( P(F \mid C^n) \), a probabilidade de a moeda ser falsa dado que todos os \( n \) lançamentos resultaram em "cara".
 
@@ -113,7 +133,9 @@ Conforme \( n \to \infty \), a probabilidade de a moeda ser falsa tende a **1** 
 **Conclusão:** 
 Se o professor lançar a moeda \( n \) vezes e obter \( n \) caras, a probabilidade de a moeda ser falsa se aproxima de 1 conforme \( n \) aumenta.
 
-##### **(iv) Se o professor lançar a moeda uma vez e obter cara, qual é a probabilidade do próximo lançamento ser cara?** 
+---
+
+##### **(iv)** Se o professor lançar a moeda uma vez e obter cara, qual é a probabilidade do próximo lançamento ser cara?
 
 **Queremos calcular:** \( P(C_2 \mid C_1) \), a probabilidade de obter "cara" no próximo lançamento dado que o primeiro lançamento resultou em "cara".
 
@@ -160,7 +182,9 @@ $$
 P(C_2 \mid C_1) = \frac{5}{6} \approx 83.33\%
 $$
 
-##### **(v) Explique porque é falso neste contexto a afirmação "os dois lançamentos da moeda são independentes", e explique qual seria a afirmação correta.**
+---
+
+##### **(v)** Explique porque é falso neste contexto a afirmação "os dois lançamentos da moeda são independentes", e explique qual seria a afirmação correta.
 
 **Contexto:** A afirmação "os dois lançamentos da moeda são independentes" é **falsa** porque o resultado de cada lançamento influencia nossa crença sobre a natureza da moeda (se ela é honesta ou falsa). Essa mudança na crença altera as probabilidades dos resultados subsequentes.
 
@@ -187,24 +211,20 @@ Por exemplo:
 
 - Assim, \( P(C_2 \mid C_1) \neq P(C_2) \), evidenciando que os lançamentos não são independentes.
 
-A afirmação correta seria: **"Os dois lançamentos da moeda são condicionalmente dependentes."**
+A afirmação correta seria: **"Os dois lançamentos da moeda são condicionalmente independentes."**
 
 Isso significa que:
 
-- Dados \( C_1 \), o resultado do primeiro lançamento, o segundo lançamento (\( C_2 \)) tem sua probabilidade ajustada conforme nossa crença sobre a natureza da moeda.
-
-Em resumo:
-
-- Os lançamentos não são independentes porque o resultado de um afeta a probabilidade do outro.
-
-- Essa dependência decorre da incerteza sobre a natureza da moeda (honesta ou falsa), que é ajustada condicionalmente ao observar o resultado de um lançamento.
+- Quando fixamos um \theta (moeda verdadeira ou moeda falsa) estamos removendo a incerteza do problema o que causaria que os lancamentos voltariam a ser independentes ja que saberiamos que estamos trabalhando com uma moeda especifica e nao teriamos que modelar a incerteza de poder estar trabalhando com a outra.
 
 
-### Questao 2)
+---
 
-#### Seja $y_1, y_2, \ldots, y_n$ uma amostra da distribuição de Bernoulli com probabilidade de sucesso $\theta$ e considere uma distribuição a priori uniforme para $\theta$. 
+### **Questao 2**
 
-##### (i) Ache a distribuição a posteriori de $\theta$ e a sua média e variância. 
+Seja $y_1, y_2, \ldots, y_n$ uma amostra da distribuição de Bernoulli com probabilidade de sucesso $\theta$ e considere uma distribuição a priori uniforme para $\theta$. 
+
+##### **(i)** Ache a distribuição a posteriori de $\theta$ e a sua média e variância. 
 
 **Dado:**
 
@@ -217,13 +237,11 @@ $$
 - A verossimilhança para uma amostra de Bernoulli é:
 
 $$
-
-P\left(y_1, y_2, \ldots, y_n \mid \theta\right)= \prod_{i=1}^n \theta^{y_i}(1-\theta)^{1-y_i} \\
-
-P\left(y_1, y_2, \ldots, y_n \mid \theta\right)=\theta^{\sum_{i=1}^n y_i}(1-\theta)^{n-\sum_{i=1}^n y_i} \\
-
-P(y_1, y_2, \ldots, y_n \mid \theta) = \theta^k(1-\theta)^{n-k}, \quad \text{onde } k = \sum_{i=1}^n y_i
-
+\begin{align*}
+P\left(y_1, y_2, \ldots, y_n \mid \theta\right) &= \prod_{i=1}^n \theta^{y_i}(1-\theta)^{1-y_i} \\
+&= \theta^{\sum_{i=1}^n y_i}(1-\theta)^{n-\sum_{i=1}^n y_i} \\
+&= \theta^k(1-\theta)^{n-k}, \quad \text{onde } k = \sum_{i=1}^n y_i
+\end{align*}
 $$
 
 - A priori de \( \theta \) é uniforme no intervalo \([0,1]\):
@@ -241,11 +259,10 @@ $$
 Substituindo:
 
 $$
-
-P\left(\theta \mid y_1, y_2, \ldots, y_n\right) \propto \theta^k(1-\theta)^{n-k} \cdot 1 \\
-
-P(\theta \mid y_1, y_2, \ldots, y_n) \propto \theta^k(1-\theta)^{n-k}
-
+\begin{align*}
+P\left(\theta \mid y_1, y_2, \ldots, y_n\right) &\propto \theta^k(1-\theta)^{n-k} \cdot 1 \\
+P(\theta \mid y_1, y_2, \ldots, y_n) &\propto \theta^k(1-\theta)^{n-k}
+\end{align*}
 $$
 
 Essa é a forma de uma distribuição **Beta** com parâmetros:
@@ -281,9 +298,10 @@ $$
 **Variância:**
 
 $$
-\text{Var}[\theta \mid y_1, y_2, \ldots, y_n] = \frac{(k+1)(n-k+1)}{((k+1)+(n-k+1))^2((k+1)+(n-k+1)+1)} \\
-
-\text{Var}[\theta \mid y_1, y_2, \ldots, y_n] = \frac{(k+1)(n-k+1)}{(n+2)^2(n+3)}
+\begin{align*}
+\text{Var}[\theta \mid y_1, y_2, \ldots, y_n] &= \frac{(k+1)(n-k+1)}{((k+1)+(n-k+1))^2((k+1)+(n-k+1)+1)} \\ \\
+ &= \frac{(k+1)(n-k+1)}{(n+2)^2(n+3)}
+\end{align*}
 $$
 
 1. A distribuição a posteriori de \( \theta \) é:
@@ -304,9 +322,12 @@ $$
 \text{Var}[\theta \mid y_1, y_2, \ldots, y_n] = \frac{(k+1)(n-k+1)}{(n+2)^2(n+3)}
 $$
 
-##### (ii) Mostre que é possível expressar a esperança a posteriori de $\theta$ da forma $(1-w) E(\theta)+w \hat{\theta}$, onde $E(\theta)$ e $\hat{\theta}$ são respectivamente a esperança a priori e a estimativa máximo verossímil de $\theta$, e interprete este resultado. 
+---
 
-**Dado:**
+##### **(ii)** Mostre que é possível expressar a esperança a posteriori de $\theta$ da forma $(1-w) E(\theta)+w \hat{\theta}$, onde $E(\theta)$ e $\hat{\theta}$ são respectivamente a esperança a priori e a estimativa máximo verossímil de $\theta$, e interprete este resultado. 
+
+
+Dado:
 
 - A distribuição a posteriori de \( \theta \) é:
 
@@ -341,75 +362,979 @@ $$
 
 pode ser escrita como uma média ponderada entre \( \mathbb{E}[\theta] = \frac{1}{2} \) (a priori) e \( \hat{\theta} = \frac{k}{n} \) (MLE).
 
-Reescrevemos:
-
 $$
-\frac{k+1}{n+2} = \left(1 - \frac{2}{n+2}\right) \times \frac{1}{2} + \frac{2}{n+2} \times \frac{k}{n}
+ \mathbb{E}[\theta \mid y_1, y_2, \ldots, y_n] = (1-w) \cdot E(\theta)+w \cdot \hat{\theta}
 $$
 
-Expandimos a expressão:
+Vamos calcular o $w$, para isso vamos substituir os dados que conhecemos na formula e isolar o $w$. Substituindo os resultados na equacao dada pela questao:
+
 
 $$
-\left(1 - \frac{2}{n+2}\right) \times \frac{1}{2} + \frac{2}{n+2} \times \frac{k}{n} = \frac{1}{2} - \frac{1}{n+2} + \frac{2k}{n(n+2)}
+\begin{align*}
+\frac{k+1}{n+2} &= (1-w) \cdot \frac{1}{2}+w \cdot \frac{k}{n} \\
+\frac{k+1}{n+2} &= \frac{1}{2}-\frac{w}{2} +w \cdot \frac{k}{n} \\
+\frac{k+1}{n+2} - \frac{1}{2} &= -\frac{w}{2} +w \cdot \frac{k}{n} \\ 
+\frac{k+1}{n+2} - \frac{1}{2} &= w(\frac{k}{n}-\frac{1}{2}) \\ 
+\end{align*}
 $$
 
-Manipulação algébrica adicional:
+Vamos resolver o lado esquerdo da igualdade e depois substituir o valor obtido para dar continuidade as contas:
 
 $$
-\frac{k+1}{n+2} = \frac{n}{2(n+2)} + \frac{2k}{n(n+2)} \\
+\begin{align*}
+\frac{k+1}{n+2} - \frac{1}{2} &= \frac{2(k+1)-(n+2)}{(n+2)\cdot 2} \\
+&= \frac{k+1}{n+2}-\frac{n+2}{2(n+2)} \\
+&= \frac{k+1-\frac{n+2}{2}}{n+2} \\
+&= \frac{k-\frac{n}{2}}{n+2} \\
+\end{align*}
+$$
 
-\frac{k+1}{n+2} = \frac{1}{2} \left(\frac{n}{n+2}\right) + \left(\frac{2}{n+2}\right) \times \frac{k}{n}
+Voltando a conta e substituindo o valor encontrado temos:
+
+$$
+\begin{align*}
+\frac{k+1}{n+2} - \frac{1}{2} &= w(\frac{k}{n}-\frac{1}{2}) \\ 
+\frac{k-\frac{n}{2}}{n+2} &= w(\frac{k}{n}-\frac{1}{2}) \\ 
+\end{align*}
+$$
+Isolando o $W$:
+
+$$
+\begin{align*}
+w &= \frac{\frac{k-\frac{n}{2}}{n+2}}{\frac{k}{n}-\frac{1}{2}} \\\\
+&= \frac{\frac{k-\frac{n}{2}}{n+2}}{\frac{2k-n}{2n}} \\\\
+&= \frac{k-\frac{n}{2}}{n+2}\frac{2n}{2k-n} \\\\
+&= \frac{\frac{2k-n}{2}}{n+2}\frac{2n}{2k-n} \\\\
+&= \frac{2k-n}{2(n+2)}\frac{2n}{2k-n} \\\\
+&= \frac{1}{2(n+2)}\frac{2n}{1} \\\\
+&= \frac{2n}{2(n+2)} \\\\
+&= \frac{n}{n+2} \\\\
+\end{align*}
+$$
+
+
+Vamos verificar o resultado usando o valor encontrado para $w = \frac{n}{n+2}$:
+
+$$
+\begin{align*}
+\frac{k+1}{n+2} &= (1-w) \cdot \frac{1}{2}+w \cdot \frac{k}{n} \\
+ &= \left(1 - \frac{n}{n+2}\right) \cdot \frac{1}{2} + \frac{n}{n+2} \cdot \frac{k}{n} \\
+ &=  \frac{2}{n+2} \cdot \frac{1}{2} + \frac{n}{n+2} \cdot \frac{k}{n} \\
+ &=  \frac{1}{n+2}  + \frac{k}{n+2} \\
+ &=  \frac{k+1}{n+2}\\
+\end{align*}
 $$
 
 Definimos:
-- \( w = \frac{2}{n+2} \)
-- \( 1-w = \frac{n}{n+2} \)
 
-Assim, a esperança a posteriori é:
+- \( w = \frac{n}{n+2} \)
+
+- \( 1-w = \frac{2}{n+2} \)
+
+Assim mostramos que a esperança a posteriori segue a formula dada pela questao
+
+---
+
+##### **(iii)** Se $y_{n+1}$ é uma observação futura deste processo de Bernoulli, ache a distribuição preditiva $p\left(y_{n+1} \mid y_1, \ldots y_n\right)$.
+
+A distribuição preditiva é dada por:
 
 $$
-\mathbb{E}[\theta \mid y_1, y_2, \ldots, y_n] = (1-w) \cdot \frac{1}{2} + w \cdot \hat{\theta}
+p(y_{n+1} \mid y_1, y_2, \ldots, y_n) = \int_0^1 p(y_{n+1} \mid \theta) \cdot p(\theta \mid y_1, y_2, \ldots, y_n) \, d\theta
+$$
+
+**Dados:**
+
+1. \( p(y_{n+1} \mid \theta) \) é Bernoulli com parâmetro \( \theta \):
+
+$$
+p(y_{n+1} \mid \theta) = \theta^{y_{n+1}} (1-\theta)^{1-y_{n+1}}
+$$
+
+2. \( p(\theta \mid y_1, y_2, \ldots, y_n) \) é a posteriori encontrada anteriormente:
+
+$$
+p(\theta \mid y_1, y_2, \ldots, y_n) = \frac{\theta^k (1-\theta)^{n-k}}{B(k+1, n-k+1)}
+$$
+
+Para encontrar a distribuicao preditiva temos que encontrar os de $y_{n+1} = 0$ e $1$ (por seguir uma bernoulli), assim poderemos descrever o comportamento da distribuicao
+
+- Para \( y_{n+1} = 1 \):
+
+$$
+p(y_{n+1} = 1 \mid y_1, y_2, \ldots, y_n) = \int_0^1 \theta \cdot \frac{\theta^k (1-\theta)^{n-k}}{B(k+1, n-k+1)} \, d\theta
+$$
+
+Expandindo:
+
+$$
+\begin{align*}
+p(y_{n+1} = 1 \mid y_1, y_2, \ldots, y_n) &= \frac{1}{B(k+1, n-k+1)} \int_0^1 \theta^{k+1-1} (1-\theta)^{n-k} \, d\theta \\ \\
+& = \frac{B(k+2, n-k+1)}{B(k+1, n-k+1)} 
+\end{align*}
+$$
+Utilizando a propriedade das funções Beta:
+
+$$
+\begin{align*}
+p(y_{n+1} = 1 \mid y_1, y_2, \ldots, y_n) &= \frac{B(k+2, n-k+1)}{B(k+1, n-k+1)}  \\ \\
+& =\frac{\frac{\Gamma(k+2) \Gamma(n-k+1)}{\Gamma\lceil(n+3)}}{\frac{T(k+1) \Gamma(n-k+1)}{\Gamma(n+2)}} \\ \\
+& =\frac{\Gamma(k+2) \Gamma(n-k+1)}{\Gamma(n+3)} \frac{\Gamma(n+2)}{\Gamma(k+1) \Gamma(n-k+1)} \\ \\
+& =\frac{\Gamma(k+2)}{\Gamma(n+3)} \frac{\Gamma(n+2)}{\Gamma(k+1)} \\ \\
+& =\frac{(k+1)\Gamma(k+1)}{(n+2)\Gamma(n+2)} \frac{\Gamma(n+2)}{\Gamma(k+1)} \\ \\
+&= \frac{k+1}{n+2}
+\end{align*}
+$$
+
+ - Para \( y_{n+1} = 0 \):
+
+$$
+p(y_{n+1} = 0 \mid y_1, y_2, \ldots, y_n) = \int_0^1 (1-\theta) \cdot \frac{\theta^k (1-\theta)^{n-k}}{B(k+1, n-k+1)} \, d\theta
+$$
+
+Expandindo:
+
+$$
+\begin{align*}
+p(y_{n+1} = 0 \mid y_1, y_2, \ldots, y_n) &= \frac{1}{B(k+1, n-k+1)} \int_0^1 \theta^k (1-\theta)^{n-k+1-1} \, d\theta \\ \\
+&= \frac{B(k+1, n-k+2)}{B(k+1, n-k+1)}
+\end{align*}
+$$
+
+Utilizando a propriedade das funções Beta:
+
+$$
+\begin{align*}
+ p(y_{n+1} = 0 \mid y_1, y_2, \ldots, y_n) &= \frac{B(k+1, n-k+2)}{B(k+1, n-k+1)} \\ \\
+& =\frac{\frac{\Gamma(k+1) \Gamma(n-k+2)}{\Gamma(n+3)}}{\frac{\Gamma(k+1) \Gamma(n-k+1)}{\Gamma(n+2)}} \\ \\
+& =\frac{\frac{\Gamma(n-k+2)}{\Gamma(n+3)} }{\frac{\Gamma(n-k+1)}{\Gamma(n+2)}} \\ \\
+& =\frac{\Gamma(n-k+2)}{\Gamma(n+3)} \frac{\Gamma(n+2)}{\Gamma(n-k+1)}  \\ \\
+& =\frac{(n-k+1)\Gamma(n-k+1)}{(n+2)\Gamma(n+2)} \frac{\Gamma(n+2)}{\Gamma(n-k+1)}  \\ \\
+&= \frac{n-k+1}{n+2}
+\end{align*}
 $$
 
 
-- Quando \( n \) é pequeno (\( w \) grande), o peso maior está na esperança **a priori** (\( \frac{1}{2} \)).
+A distribuição preditiva de \( y_{n+1} \) é:
 
-- Quando \( n \) é grande (\( w \) pequeno), o peso maior está na estimativa de máxima verossimilhança (\( \hat{\theta} \)).
+$$
+\begin{aligned} & p\left(y_{n+1}=1 \mid y_1, y_2, \ldots, y_n\right)=\frac{k+1}{n+2} \\ & p\left(y_{n+1}=0 \mid y_1, y_2, \ldots, y_n\right)=\frac{n-k+1}{n+2}\end{aligned}
+$$
 
-Essa formulação reflete que:
+Interpretação
 
-- **Com amostras pequenas**, nossas crenças a priori têm maior influência sobre a estimativa de \( \theta \).
+A distribuição preditiva é uma **média ponderada suavizada** das proporções observadas de sucessos e fracassos:
 
-- **Com amostras grandes**, a evidência observada domina, e \( \mathbb{E}[\theta \mid y_1, y_2, \ldots, y_n] \) se aproxima da MLE.
+- Quando \( n \) é pequeno, a predição incorpora mais influência da distribuição a priori (suavização de Laplace).
+
+- Quando \( n \) é grande, a predição converge para a frequência relativa de sucessos na amostra.
+
+Isso reflete o princípio de suavização: mesmo com muitos dados, há uma pequena influência da crença a priori que ajusta as proporções observadas.
+
+---
+
+### **Questao 3**
+
+Seja $y_1, y_2, \ldots, y_n$ uma amostra da distribuição de Bernoulli com probabilidade de sucesso $\theta$ e suponha que, a priori, $\eta=\operatorname{logit}(\theta)=\log \frac{\theta}{1-\theta}$ segue uma distribuição Normal com média $\mu=0$ e desvio padrão $\sigma=10$. 
+
+##### **(i)** Ache a densidade a priori de $\theta$. 
+
+Dado:
+
+- Suponha que \( \eta = \text{logit}(\theta) \), onde:
+
+$$
+\eta = \log \frac{\theta}{1-\theta}
+$$
+
+- \( \eta \sim N(0, 10^2) \), ou seja, \( \eta \) segue uma Normal com média 0 e desvio padrão 10.
+
+**Transformação de Variável:**
+
+A transformação entre \( \eta \) e \( \theta \) é:
+
+Comecamos elevando ambos os lado por $e$ e depois isolamos \theta
+
+$$
+\begin{align*}
+e^\eta &= \frac{\theta}{1-\theta} \\
+e^\eta(1-\theta) &=\theta \\ 
+e^\eta-e^\eta \theta &= \theta \\
+e^\eta & =\theta+e^\eta \theta \\ 
+e^\eta & =\theta\left(1+e^\eta\right)\\
+\theta &= \frac{e^\eta}{1 + e^\eta}
+\end{align*}
+$$
+
+A densidade de \( \theta \), \( f_\Theta(\theta) \), pode ser encontrada a partir da densidade de \( \eta \), \( f_\eta(\eta) \), usando a regra do Jacobiano:
+
+$$
+f_\Theta(\theta) = f_\eta(\eta) \cdot \left| \frac{d\eta}{d\theta} \right|
+$$
+
+1. **Densidade de \( \eta \):**
+
+$$
+f_\eta(\eta) = \frac{1}{\sqrt{2\pi} \cdot 10} \exp\left(-\frac{\eta^2}{2 \cdot 10^2}\right)
+$$
+
+2. **Jacobiano da Transformação:**
+
+$$
+\frac{d\eta}{d\theta} = \frac{1}{\theta(1-\theta)}
+$$
+
+Substituímos \( \eta = \log \frac{\theta}{1-\theta} \) na densidade de \( \eta \) e aplicamos o Jacobiano:
+
+$$
+f_\Theta(\theta) = \frac{1}{\sqrt{2\pi} \cdot 10} \exp\left(-\frac{\left(\log \frac{\theta}{1-\theta}\right)^2}{200}\right) \cdot \frac{1}{\theta(1-\theta)}
+$$
 
 
-##### (iii) Se $y_{n+1}$ é uma observação futura deste processo de Bernoulli, ache a distribuição preditiva $p\left(y_{n+1} \mid y_1, \ldots y_n\right)$.
+A densidade a priori de \( \theta \) é:
 
-### Questao 3)
+$$
+f_\Theta(\theta) = \frac{1}{\sqrt{2\pi} \cdot 10} \exp\left(-\frac{\left(\log \frac{\theta}{1-\theta}\right)^2}{200}\right) \cdot \frac{1}{\theta(1-\theta)}
+$$
 
-#### Seja $y_1, y_2, \ldots, y_n$ uma amostra da distribuição de Bernoulli com probabilidade de sucesso $\theta$ e suponha que, a priori, $\eta=\operatorname{logit}(\theta)=\log \frac{\theta}{1-\theta}$ segue uma distribuição Normal com média $\mu=0$ e desvio padrão $\sigma=10$. 
+---
 
-##### (i) Ache a densidade a priori de $\theta$. 
+##### **(ii)** No caso que $n=12$ e $s=\sum_{i=1}^{12} y_i=9$, calcule numericamente uma aproximação para a densidade a posteriori. 
 
-##### (ii) No caso que $n=12$ e $s=\sum_{i=1}^{12} y_i=9$, calcule numericamente uma aproximação para a densidade a posteriori. 
+**Dado:**
+- A verossimilhança para uma distribuição Bernoulli é:
 
-##### (iii) No caso anterior, faça um gráfico comparando a distribuição a posteriori com a que seria obtida quando a priori $\theta \sim \operatorname{Uniforme}(0,1)$ (i.é. a distribuição Beta $\operatorname{com} \alpha=10$ e $\beta=4)$.
+$$
+L(\theta \mid y) = \theta^s (1-\theta)^{n-s}
+$$
+
+onde:
+
+- \( s \) é o número de sucessos observados.
+
+- \( n \) é o tamanho da amostra.
+
+- A densidade a priori de \( \theta \) é:
+
+$$
+f_\Theta(\theta) = \frac{1}{\sqrt{2\pi} \cdot 10} \exp\left(-\frac{\left(\log \frac{\theta}{1-\theta}\right)^2}{200}\right) \cdot \frac{1}{\theta(1-\theta)}
+$$
+
+A posteriori é proporcional ao produto da verossimilhança e da priori:
+
+$$
+\pi(\theta \mid y) \propto L(\theta \mid y) \cdot f_\Theta(\theta)
+$$
+
+Substituímos os termos:
+
+$$
+\pi(\theta \mid y) \propto \theta^s (1-\theta)^{n-s} \cdot \exp\left(-\frac{\left(\log \frac{\theta}{1-\theta}\right)^2}{200}\right) \cdot \frac{1}{\theta(1-\theta)}
+$$
+
+Agrupando os fatores:
+
+$$
+\pi(\theta \mid y) \propto \exp\left(-\frac{\left(\log \frac{\theta}{1-\theta}\right)^2}{200}\right) \cdot \theta^{s-1} (1-\theta)^{n-s-1}
+$$
 
 
-### Questao 4)
+A distribuição a posteriori de \( \theta \) é proporcional a:
 
-#### No exercício 2, calcule: 
-
-##### (i) a estimativa bayesiana para Perda Quadrática e (ii) o limite da estimativa bayesiana para Perda Zero-Um quando $\epsilon \rightarrow 0$. No caso especial que $n=12, s=\sum_{i=1}^{12} y_i=9$, calcule (iii) a estimativa bayesiana sob Perda Absoluta e (iv) um intervalo HPD com nível $99 \%$.
-
-
+$$
+\pi(\theta \mid y) \propto \exp\left(-\frac{\left(\log \frac{\theta}{1-\theta}\right)^2}{200}\right) \cdot \theta^{s-1} (1-\theta)^{n-s-1}
+$$
 
 
+---
+
+##### **(iii)** No caso anterior, faça um gráfico comparando a distribuição a posteriori com a que seria obtida quando a priori $\theta \sim \operatorname{Uniforme}(0,1)$ (i.é. a distribuição Beta $\operatorname{com} \alpha=10$ e $\beta=4)$.
+
+```{r}
+# Definindo a densidade a priori
+prior_density <- function(theta) {
+  eta <- log(theta / (1 - theta))
+  (1 / (sqrt(2 * pi) * 10)) * exp(-eta^2 / (2 * 10^2)) * (1 / (theta * (1 - theta)))
+}
+
+# Definindo a densidade a posteriori
+posterior_density <- function(theta, s, n) {
+  likelihood <- theta^s * (1 - theta)^(n - s)
+  prior <- prior_density(theta)
+  likelihood * prior
+}
+
+# Configurando os parâmetros
+n <- 12
+s <- 9
+theta <- seq(0.01, 0.99, length.out = 1000)
+
+# Calculando as densidades
+posterior <- sapply(theta, posterior_density, s = s, n = n)
+
+# Posteriori com priori uniforme (distribuição beta)
+posterior_uniform_prior <- dbeta(theta, s + 1, n - s + 1)
+
+# Normalizando as densidades usando o método do trapézio
+posterior <- posterior / trapz(theta, posterior)
+posterior_uniform_prior <- posterior_uniform_prior / trapz(theta, posterior_uniform_prior)
+```
 
 
+```{r echo=FALSE}
+# Criando o gráfico
+df <- data.frame(
+  theta = rep(theta, 2),
+  densidade = c(posterior, posterior_uniform_prior),
+  tipo = rep(c("Posteriori com Priori Normal", "Posteriori com Priori Uniforme"), each = length(theta))
+)
+
+ggplot(df, aes(x = theta, y = densidade, color = tipo, linetype = tipo)) +
+  geom_line() +
+  labs(
+    x = expression(theta),
+    y = "Densidade",
+    title = "Comparação das Densidades a Posteriori"
+  ) +
+  scale_color_manual(values = c("blue", "red")) +
+  theme_minimal() +
+  theme(legend.title = element_blank())
+
+```
+
+Observamos que a transformação de uma priori Normal pelo logit resulta em uma posteriori que incorpora essa informação adicional, gerando uma densidade ligeiramente deslocada e mais concentrada ao redor do valor de $\theta$.
+
+---
+
+### **Questao 4**
+
+No exercício 2, calcule: 
+
+##### **(i)** a estimativa bayesiana para Perda Quadrática 
+
+Para calcular a estimativa Bayesiana sob a perda quadrática, precisamos encontrar o estimador que minimiza o valor esperado da perda quadrática, geralmente expressa como:
+
+$L(\theta, d) = (\theta - d)^2$
+
+onde $\theta$ é o parâmetro verdadeiro e $d$ é a decisão ou estimativa tomad (em alguns lugares pode ser escrito como $\hat\theta$). Assim, temos:
+
+$$
+\mathbb{E}\left[(\theta - d)^2 \mid y_1, y_2, \ldots, y_n\right]
+$$
+
+onde $\theta$ segue a distribuição a posteriori dado os dados observados $y_1, y_2, \ldots, y_n$.
+
+Dado que $\theta$ tem distribuição a posteriori $\operatorname{Beta}(k+1, n-k+1)$, a estimativa Bayesiana que minimiza a perda quadrática é a média da distribuição a posteriori, pois a média de uma distribuição é o estimador de mínimo erro quadrático médio (MSE). 
+
+A média da distribuição $\operatorname{Beta}(\alpha, \beta)$ é dada por:
+
+$$
+\frac{\alpha}{\alpha + \beta}
+$$
+
+Portanto, para a nossa distribuição a posteriori $\operatorname{Beta}(k+1, n-k+1)$, a média é:
+
+$$
+\mathbb{E}\left[\theta \mid y_1, y_2, \ldots, y_n\right] = \frac{k+1}{(k+1) + (n-k+1)} = \frac{k+1}{n+2}
+$$
+
+Consequentemente, a estimativa Bayesiana de $\theta$ sob perda quadrática, dada a amostra $\left[y_1, y_2, \ldots, y_n\right]$, é:
+
+$$
+d^* = \frac{k+1}{n+2}
+$$
+
+A estimativa Bayesiana $d^*$ corresponde à média a posteriori do parâmetro $\theta$, considerando tanto a informação a priori (distribuição uniforme de $\theta$ entre 0 e 1) quanto a evidência da amostra ($k$ sucessos em $n$ tentativas). O ajuste de $+1$ no numerador e $+2$ no denominador introduz uma regularização que evita extremos em amostras pequenas, promovendo uma suavização estatística. Isso reflete um equilíbrio entre o conhecimento a priori e a evidência empírica, alinhando-se com os princípios fundamentais da inferência Bayesiana.
 
 
+---
+
+##### **(ii)** o limite da estimativa bayesiana para Perda Zero-Um quando $\epsilon \rightarrow 0$. No caso especial que $n=12, s=\sum_{i=1}^{12} y_i=9$
+
+A estimativa Bayesiana sob a função de perda zero-um é dada por:
+
+$$
+L(\theta, d) =
+\begin{cases} 
+1 & \text{se } \theta \neq d \\ 
+0 & \text{se } \theta = d 
+\end{cases}
+$$
+
+Essa função penaliza exclusivamente decisões incorretas, sem considerar a magnitude do erro, diferentemente da perda quadrática que penaliza com base no quadrado da diferença entre $\theta$ e $d$.
+
+A minimização do erro de classificação ocorre ao selecionar o valor de $\theta$ que maximiza a distribuição a posteriori, ou seja, a **moda** da distribuição a posteriori.
+
+Dado o caso especial em que $n=12$ e $s=\sum_{i=1}^{12} y_i = 9$, a distribuição a posteriori de $\theta$ é:
+
+$$
+\theta \mid y_1, y_2, \ldots, y_{12} \sim \operatorname{Beta}(s+1, n-s+1) = \operatorname{Beta}(10, 4)
+$$
+
+A moda de uma distribuição $\operatorname{Beta}(\alpha, \beta)$, para $\alpha > 1$ e $\beta > 1$, é calculada como:
+
+$$
+\operatorname{Mode}[\theta] = \frac{\alpha - 1}{\alpha + \beta - 2}
+$$
+
+Aplicando aos nossos parâmetros $\operatorname{Beta}(10, 4)$:
+
+$$
+\operatorname{Mode}[\theta] = \frac{10 - 1}{10 + 4 - 2} = \frac{9}{12} = 0.75
+$$
+
+O limite $\epsilon \rightarrow 0$ normalmente implica analisar o comportamento extremo da função de perda ou dos parâmetros. Nesse contexto, considerando a estimativa para a função de perda zero-um, já calculamos que o valor da moda é:
+
+$$
+\theta^* = 0.75
+$$
+
+Não há dependência explícita de $\epsilon$ no cálculo, a menos que $\epsilon$ esteja associado a algum parâmetro adicional de regularização ou suavização não especificado na questão. O valor calculado reflete a solução ótima considerando os dados e a função de perda zero-um.
 
 
+---
+
+##### **(iii)** a estimativa bayesiana sob Perda Absoluta
+
+A estimativa Bayesiana sob a perda absoluta é obtida minimizando o valor esperado da perda absoluta. A função de perda absoluta é dada por:
+
+$$
+L(\theta, d) = |\theta - d|
+$$
+
+onde $\theta$ é o parâmetro verdadeiro e $d$ é a decisão ou estimativa tomada. O estimador que minimiza a perda absoluta é a **mediana** da distribuição a posteriori, pois a mediana minimiza a soma das distâncias absolutas em relação a ela mesma.
+
+Após observar os dados $y_1, y_2, \ldots, y_n$, a distribuição a posteriori de $\theta$ é:
+
+$$
+\theta \mid y_1, y_2, \ldots, y_n \sim \operatorname{Beta}(k+1, n-k+1)
+$$
+
+onde $k = \sum_{i=1}^n y_i$. No caso especial em que $n = 12$ e $k = s = 9$, temos:
+
+$$
+\theta \mid y_1, y_2, \ldots, y_{12} \sim \operatorname{Beta}(10, 4)
+$$
+
+Para uma distribuição $\operatorname{Beta}(\alpha, \beta)$, a mediana não possui uma fórmula fechada simples, mas pode ser aproximada ou calculada numericamente. Uma aproximação comum é:
+
+$$
+\text{Mediana} \approx \frac{\alpha - \frac{1}{3}}{\alpha + \beta - \frac{2}{3}}
+$$
+
+Substituindo $\alpha = 10$ e $\beta = 4$:
+
+$$
+\text{Mediana} \approx \frac{10 - \frac{1}{3}}{10 + 4 - \frac{2}{3}} = \frac{9.6667}{13.3333} \approx 0.725
+$$
+
+Portanto, a estimativa Bayesiana de $\theta$ sob a perda absoluta, dada a amostra específica, é aproximadamente:
+
+$$
+\theta^* \approx 0.725
+$$
 
 
+---
+
+##### **(iv)** um intervalo HPD com nível $99 \%$.
+
+
+O intervalo de alta densidade posterior (HPD - Highest Posterior Density) é definido como o intervalo que contém uma determinada percentagem da densidade de probabilidade, onde todas as probabilidades dentro do intervalo são maiores ou iguais às probabilidades fora dele.
+
+Para calcular o intervalo HPD de 99\% para a distribuição a posteriori de $\theta$, assumimos que $\theta \sim \operatorname{Beta}(10,4)$. A função de densidade da distribuição Beta é dada por:
+
+$$
+f(\theta; \alpha, \beta) = \frac{\theta^{\alpha-1} (1-\theta)^{\beta-1}}{B(\alpha, \beta)}
+$$
+
+onde $B(\alpha, \beta)$ é a função Beta. Para nosso caso específico, $\alpha = 10$ e $\beta = 4$.
+
+Para determinar o intervalo HPD, utilizamos o R, uma vez que a distribuição Beta não possui uma solução analítica simples para este intervalo. Abaixo estão os parâmetros e o código utilizado:
+
+
+```{r}
+# Parâmetros da Beta
+a <- 10
+b <- 4
+
+# Função para calcular o intervalo HPD
+hpd_interval <- function(a, b, level = 0.99) {
+  lower_bound <- (1 - level) / 2
+  upper_bound <- 1 - lower_bound
+  
+  lower_quantile <- qbeta(lower_bound, a, b)
+  upper_quantile <- qbeta(upper_bound, a, b)
+  
+  return(c(lower_quantile, upper_quantile))
+}
+
+# Calcular o intervalo HPD de 99%
+hpd_99 <- hpd_interval(a, b, 0.99)
+
+# Formatando os resultados
+hpd_99_formatted <- round(hpd_99, 3)
+```
+
+
+```{r echo=FALSE}
+# Exibir o resultado
+cat(sprintf("Intervalo HPD de 99%% para Beta(%d, %d): (%0.3f, %0.3f)\n", a, b, hpd_99_formatted[1], hpd_99_formatted[2]))
+
+```
+
+---
+
+### **Questao 7** 
+
+Suponha que $x_1, \ldots, x_5 \stackrel{i i d}{\sim}$ Cauchy $(\theta, 1)$ (i.é. $p\left(y_1 \mid \theta\right)=\pi^{-1} /\left[1+\left(y_1-\theta\right)^2\right]$ para $\left.-\infty<y_1<\infty\right)$. Assuma que a sua distribuição a priori para $\theta$ é Uniforme $(0,1)$. Dadas as observações $\left(x_1, \ldots, x_5\right)=(-2,-1,0,1.5,2.5)$ :
+
+
+##### **(i)** Compute a densidade a posteriori não normalizada [isto é, $p(\theta) p\left(x_1, \ldots, x_5 \mid \theta\right)$ ] numa grade de pontos $\theta=0, \frac{1}{m}, \frac{2}{m}, \ldots, \frac{m-1}{m}, 1$ para algum valor grande de $m$. 
+
+```{r}
+# Vetor de dados
+x <- c(-2, -1, 0, 1.5, 2.5)
+n <- length(x)
+
+# Número de pontos em theta
+m <- 1000
+theta <- seq(0, 1, length.out = m)
+
+# Função para calcular a densidade posterior
+posterior_density <- function(theta, x) {
+  likelihood <- sapply(theta, function(t) prod(1 / (pi * (1 + (x - t)^2))))
+  prior <- rep(1, length(theta)) # Prior uniforme
+  return(likelihood * prior)
+}
+
+# Calcular a densidade posteriori
+posterior <- posterior_density(theta, x)
+
+# Normalizar a posteriori utilizando a regra do trapézio
+posterior <- posterior / trapz(theta, posterior)
+```
+
+
+---
+
+##### **(ii)** Usando essa grade, calcule uma aproximaçāo para $p\left(\theta \mid x_1, \ldots, x_5\right)$ e faça um gráfico dela. 
+
+```{r}
+plot(theta, posterior, type = "l", col = "blue", lwd = 2, main = "Densidade Posterior", xlab = "Theta", ylab = "Posterior")
+
+```
+
+---
+
+##### **(iii)** Amostre 1000 observações da distribuç̧ão a posteriori aproximada e faça um histograma dessa amostra. 
+
+
+```{r}
+set.seed(42) # Para reprodutibilidade
+# Amostrar 1000 observações da distribuição posterior
+sample_posterior <- sample(theta, size = 1000, prob = posterior, replace = TRUE)
+```
+
+
+```{r}
+# Criar o histograma da amostra
+hist(sample_posterior, breaks = 60, col = "lightblue", border = "black",
+     main = "Histograma das Amostras da Distribuição Posterior",
+     xlab = "Theta", ylab = "Frequência")
+```
+
+
+---
+
+##### **(iv)** Usando a amostra da parte (iii), amostre 1000 observações da distribuição preditiva de uma observação futura $y_6$. Calcule a média e faça um histograma dessa amostra.
+
+```{r}
+# Configuração inicial (usando a amostra da posterior calculada anteriormente)
+
+# Gerar a distribuição preditiva para uma nova observação y6
+predictive_sample <- sapply(sample_posterior, function(theta_i) {
+  # Gerar uma observação de y6 para cada theta amostrado
+  rcauchy(1, location = theta_i, scale = 1) # A função rcauchy gera valores da distribuição de Cauchy
+})
+
+# Calcular a média da amostra da distribuição preditiva
+mean_predictive <- mean(predictive_sample)
+
+# Exibir a média
+cat(sprintf("Média da distribuição preditiva: %.3f\n", mean_predictive))
+
+# Criar o histograma da distribuição preditiva
+hist(predictive_sample, breaks = 30, col = "lightgreen", border = "black",
+     main = "Histograma das Amostras da Distribuição Preditiva",
+     xlab = "y6", ylab = "Frequência")
+
+```
+
+
+---
+
+### **Questao 8** 
+
+Suponha que $\left(x_1, x_2, x_3\right)$ dado $p_1, p_2, p_3$ segue uma distribuição Multinomial com parâmetros $n$ e $\left(p_1, p_2, p_3\right)$, onde $p_i \geq 0$ e $p_1+p_2+p_3=1$, e que, a priori, $\left(p_1, p_2, p_3\right)$ segue uma distribuição de Dirichlet com parâmetros $\left(\alpha_1, \alpha_2, \alpha_3\right)$. 
+
+#### **(i)** Ache a distribuição a posteriori de $p_1, p_2, p_3$ e as distribuições a posteriori marginais de $p_i(i=1,2,3)$ 
+
+A distribuição a posteriori de $\left(p_1, p_2, p_3\right)$ é uma distribuição de Dirichlet com parâmetros atualizados. A distribuição a priori é:
+
+$$
+\left(p_1, p_2, p_3\right) \sim \operatorname{Dirichlet}\left(\alpha_1, \alpha_2, \alpha_3\right)
+$$
+
+A função de verossimilhança para a distribuição multinomial é:
+
+$$
+P\left(x_1, x_2, x_3 \mid p_1, p_2, p_3\right) = \frac{n!}{x_1!x_2!x_3!} p_1^{x_1} p_2^{x_2} p_3^{x_3}
+$$
+
+Portanto, a distribuição a posteriori é proporcional a:
+
+$$
+P\left(p_1, p_2, p_3 \mid x_1, x_2, x_3\right) \propto p_1^{\alpha_1+x_1-1} p_2^{\alpha_2+x_2-1} p_3^{\alpha_3+x_3-1}
+$$
+
+A distribuição a posteriori é então:
+
+$$
+\left(p_1, p_2, p_3\right) \mid \left(x_1, x_2, x_3\right) \sim \operatorname{Dirichlet}\left(\alpha_1+x_1, \alpha_2+x_2, \alpha_3+x_3\right)
+$$
+
+Para calcular as marginais de cada $p_i$ vamos usar uma propriedade da distribuição Dirichlet onde suas marginais seguem uma beta com os seguintes parametros:
+
+A densidade marginal de $x_i$ é dada por:
+$$
+X_i \sim \operatorname{Beta}\left(\alpha_i, \alpha_0-\alpha_i\right),
+$$
+onde:
+- $\alpha_0=\sum_{i=1}^K \alpha_i$ é a soma dos parâmetros da Dirichlet,
+- $X_i$ é a proporção associada ao $i$-ésimo componente.
+
+Entao o resultados das marginais de $p_1,p_2,p_3$ fica:
+
+- Para $p_1$:
+
+$$
+p_1 \mid \left(x_1, x_2, x_3\right) \sim \operatorname{Beta}\left(\alpha_1+x_1, \alpha_2+x_2+\alpha_3+x_3\right)
+$$
+
+- Para $p_2$:
+
+$$
+p_2 \mid \left(x_1, x_2, x_3\right) \sim \operatorname{Beta}\left(\alpha_2+x_2, \alpha_1+x_1+\alpha_3+x_3\right)
+$$
+
+- Para $p_3$:
+
+$$
+p_3 \mid \left(x_1, x_2, x_3\right) \sim \operatorname{Beta}\left(\alpha_3+x_3, \alpha_1+x_1+\alpha_2+x_2\right)
+$$
+
+---
+
+#### **(ii)** Calcule as estimativas bayesianas de $p_i$ e de $p_j-p_i$ sob Perda Quadrática $(i, j=1,2,3$, $i \neq j)$.
+
+Para a distribuição Dirichlet $\operatorname{Dirichlet}\left(\alpha_1, \alpha_2, \alpha_3\right)$, a esperança de $p_i$ é:
+
+$$
+\mathbb{E}\left[p_i \mid x_1, x_2, x_3\right] = \frac{\alpha_i+x_i}{\sum_{j=1}^3 \left(\alpha_j+x_j\right)}
+$$
+
+As estimativas Bayesianas de $p_1, p_2, p_3$ são:
+
+$$
+\hat{p_1} = \frac{\alpha_1+x_1}{\alpha_1+x_1+\alpha_2+x_2+\alpha_3+x_3}, \quad
+\hat{p_2} = \frac{\alpha_2+x_2}{\alpha_1+x_1+\alpha_2+x_2+\alpha_3+x_3}, \quad
+\hat{p_3} = \frac{\alpha_3+x_3}{\alpha_1+x_1+\alpha_2+x_2+\alpha_3+x_3}
+$$
+
+Para calcular a estimativa de $p_j - p_i$ sob perda quadrática, usamos a linearidade da esperança:
+
+$$
+\mathbb{E}\left[p_j - p_i \mid x_1, x_2, x_3\right] = \mathbb{E}\left[p_j \mid x_1, x_2, x_3\right] - \mathbb{E}\left[p_i \mid x_1, x_2, x_3\right]
+$$
+
+A estimativa é dada por:
+
+$$
+\mathbb{E}\left[p_j - p_i \mid x_1, x_2, x_3\right] = \frac{\alpha_j+x_j}{\alpha_1+x_1+\alpha_2+x_2+\alpha_3+x_3} - \frac{\alpha_i+x_i}{\alpha_1+x_1+\alpha_2+x_2+\alpha_3+x_3}
+$$
+
+Resumindo os resultados encontrados:
+
+- A distribuição a posteriori de $\left(p_1, p_2, p_3\right)$ é $\operatorname{Dirichlet}\left(\alpha_1+x_1, \alpha_2+x_2, \alpha_3+x_3\right)$.
+
+- As distribuições marginais de $p_i$ são $\operatorname{Beta}\left(\alpha_i+x_i, \sum_{j \neq i} \left(\alpha_j+x_j\right)\right)$.
+
+- As estimativas Bayesianas de $p_i$ são:
+
+$$
+\hat{p_i} = \frac{\alpha_i+x_i}{\sum_{j=1}^3 \left(\alpha_j+x_j\right)}
+$$
+
+- As estimativas Bayesianas de $p_j - p_i$ são:
+
+$$
+\hat{p_j} - \hat{p_i} = \frac{\alpha_j+x_j}{\sum_{k=1}^3 \left(\alpha_k+x_k\right)} - \frac{\alpha_i+x_i}{\sum_{k=1}^3 \left(\alpha_k+x_k\right)}
+$$
+
+---
+
+### **Questao 9** 
+
+Na véspera do primeiro turno para a eleição de governador do DF de 2010, a Datafolha divulgou uma pesquisa indicando que, de 891 eleitores entrevistados que já tinham decidido em quem votar, Agnelo Queiroz tinha a preferência de 467, Weslian Roriz a de 315 e outros candidatos a de 109 eleitores. Formule um modelo para analizar esses dados. Ache estimativas bayesianas e construa intervalos críveis para: 
+
+##### (a) a proporção de votantes de Agnelo Queiroz 
+
+1. Assumimos que a proporção de votantes de Agnelo Queiroz ($\theta_A$) segue uma distribuição Beta com parâmetros $a$ e $b$:
+
+$$
+\theta_A \sim \operatorname{Beta}(a, b)
+$$
+
+2. A verossimilhança baseada nos dados observados segue uma distribuição binomial:
+
+$$
+x_A \sim \operatorname{Binomial}(n=891, p=\theta_A)
+$$
+
+3. Dados observados:
+
+   - Número de votantes de Agnelo Queiroz: $x_A = 467$
+   
+   - Total de eleitores decididos: $n = 891$
+
+4. A distribuição a posteriori de $\theta_A$ é dada por:
+
+$$
+\theta_A \sim \operatorname{Beta}(a + x_A, b + n - x_A)
+$$
+
+5. Considerando uma distribuição a priori não informativa com $a = 1$ e $b = 1$, a posteriori é:
+   
+$$
+\theta_A \sim \operatorname{Beta}(1 + 467, 1 + 891 - 467) = \operatorname{Beta}(468, 425)
+$$
+
+6. Calculamos o intervalo crível de 95% para $\theta_A$ com base na distribuição a posteriori.
+
+
+##### (b) a diferença entre a proporção de votantes de Agnelo e de Weslian Roriz.
+
+Para este cenário, alteramos alguns parâmetros em relação ao passo anterior:
+
+1. A priori para a proporção de votantes de Weslian Roriz ($\theta_W$) é:
+
+$$
+\theta_W \sim \operatorname{Beta}(a, b
+$$
+
+2. Dados observados:
+
+   - Número de votantes de Weslian Roriz: $x_W = 315$
+   
+   - Total de eleitores decididos: $n = 891$
+
+3. A posteriori de $\theta_W$ é:
+
+$$
+\theta_W \sim \operatorname{Beta}(a + x_W, b + n - x_W)
+$$
+   Considerando $a = 1$ e $b = 1$, temos:
+   
+$$
+\theta_W \sim \operatorname{Beta}(1 + 315, 1 + 891 - 315) = \operatorname{Beta}(316, 577)
+$$
+
+4. Para encontrar a distribuição da diferença $\delta$ entre as proporções ($\theta_A - \theta_W$):
+
+   - Amostramos valores de $\theta_A \sim \operatorname{Beta}(468, 425)$.
+   
+   - Amostramos valores de $\theta_W \sim \operatorname{Beta}(316, 577)$.
+   
+   - Calculamos a diferença $\delta = \theta_A - \theta_W$.
+
+5. Por fim, calculamos o intervalo crível de 95% para $\delta$ com base nas amostras geradas.
+
+Segue a implementação para os dois cenários:
+
+```{r message=FALSE, warning=FALSE}
+# Parâmetros
+n <- 891
+x_A <- 467
+x_W <- 315
+
+a <- 1
+b <- 1
+
+# Parâmetros da distribuição Beta
+alpha_A_post <- a + x_A
+beta_A_post <- b + (n - x_A)
+alpha_W_post <- a + x_W
+beta_W_post <- b + (n - x_W)
+
+# Gerando amostras
+library(extraDistr)
+
+set.seed(123) # Para reprodutibilidade
+samples_theta_A <- rbeta(10000, alpha_A_post, beta_A_post)
+samples_theta_W <- rbeta(10000, alpha_W_post, beta_W_post)
+
+# Intervalos de confiança
+cred_interval_A <- quantile(samples_theta_A, probs = c(0.025, 0.975))
+cred_interval_delta <- quantile(samples_theta_A - samples_theta_W, probs = c(0.025, 0.975))
+
+# Arredondando os valores
+cred_interval_A_rounded <- round(cred_interval_A, 2)
+cred_interval_delta_rounded <- round(cred_interval_delta, 2)
+
+# Resultados
+cat("IC votantes de Agnelo Queiroz:", cred_interval_A_rounded, "\n")
+cat("IC da diferença:", cred_interval_delta_rounded, "\n")
+
+# Visualização
+library(ggplot2)
+
+samples_delta <- samples_theta_A - samples_theta_W
+ggplot(data.frame(samples_delta), aes(x = samples_delta)) +
+  geom_histogram(aes(y = ..density..), bins = 30, fill = "skyblue", color = "black") +
+  geom_vline(xintercept = cred_interval_delta[1], color = "red", linetype = "dashed", label = "Limite Inferior 95%") +
+  geom_vline(xintercept = cred_interval_delta[2], color = "red", linetype = "dashed", label = "Limite Superior 95%") +
+  labs(
+    x = "Diferença de Proporção",
+    y = "Densidade",
+    title = "Histograma da Diferença de Proporção de Votantes (Agnelo - Weslian)"
+  ) +
+  theme_minimal()
+
+```
+
+---
+
+### **Questao 11** 
+
+É conhecido que $25 \%$ dos pacientes de um certo grupo que sofrem de enxaqueca melhoram após duas horas de serem tratados com um placebo. Para verificar se uma droga nova é melhor que o placebo, $n=20$ pacientes foram tratados com o placebo e verificou-se que após duas horas $s=8$ deles relataram ter melhorado. Seja $\theta$ a probabilidade de um paciente tratado com a droga nova melhorar após duas horas. 
+
+#### **(i)** Especifique a hipótese nula $H_0$ e a alternativa $H_1$; 
+
+- Hipótese nula $H_0: \theta=0.25$ (a droga nova é tão eficaz quanto o placebo)
+
+- Hipótese alternativa $H_1: \theta>0.25$ (a droga nova é mais eficaz que o placebo)
+
+---
+
+#### **(ii)** Usando a distribuição a priori "não informativa" $\theta \sim$ Uniforme $(0,1)$, calcule as chances relativas a priori e a posteriori de $H_1$ e o correspondente Fator de Bayes; 
+
+- $P(\theta>0.25)$
+
+- $P(\theta \leq 0.25)$
+
+A distribuição a priori uniforme $\theta \sim \operatorname{Uniforme}(0,1)$ :
+
+$$
+\begin{aligned}
+& P(\theta \leq 0.25)=0.25 \\
+& P(\theta>0.25)=1-0.25=0.75
+\end{aligned}
+$$
+
+As chances relativas a priori:
+
+$$
+O\left(H_1\right)=\frac{P(\theta>0.25)}{P(\theta \leq 0.25)}=\frac{0.75}{0.25}=3
+$$
+
+Sabemos que a distribuição a posteriori é $\theta \mid s \sim \operatorname{Beta}(9,13)$. Probabilidade a Posteriori de $\theta>0.25$ :
+
+$$
+P(\theta>0.25 \mid s)=1-F_{\text {Beta }}(0.25 \mid 9,13)
+$$
+
+Consequentemente:
+
+$$
+P(\theta \leq 0.25 \mid s)=F_{\text {Beta }}(0.25 \mid 9,13)
+$$
+
+```{r}
+# Parâmetros da distribuição Beta
+a <- 9
+b <- 13
+
+# Cálculo das probabilidades posteriores
+posterior_prob_H1 <- 1 - pbeta(0.25, shape1 = a, shape2 = b)
+posterior_prob_H0 <- pbeta(0.25, shape1 = a, shape2 = b)
+
+# Exibindo os resultados
+cat(sprintf("P(θ > 0.25 | s) = %.3f\n", posterior_prob_H1))
+cat(sprintf("P(θ ≤ 0.25 | s) = %.3f\n", posterior_prob_H0))
+```
+
+Chances Relativas a Posteriori:
+$$
+O\left(H_1 \mid s\right)=\frac{P(\theta>0.25 \mid s)}{P(\theta \leq 0.25 \mid s)}=\frac{0.944}{0.056}=16.810
+$$
+
+Fator de Bayes:
+$$
+B_{10}(s)=\frac{O\left(H_1 \mid s\right)}{O\left(H_1\right)}=\frac{16.810}{3}=5.603
+$$
+
+---
+
+#### **(iii)** Seja $d=1$ a decisão de rejeitar $H_0$ e $d=0$ a de não rejeitar. Considere a função de perda de Neyman para a qual é 5 vezes mais custoso rejeitar $H_0$ quando ela é verdadeira do que não rejeitar quando ela é falsa [isto é, $\left.L\left(d=1, \theta \in H_0\right)=5 L\left(d=0, \theta \notin H_0\right), L\left(d=1, \theta \notin H_0\right)=L\left(d=0, \theta \in H_0\right)=0\right]$. Calcule a decisão ótima a posteriori; 
+
+Definindo a função de perda de Neyman:
+
+- $L\left(d=1, \theta \in H_0\right)=5$
+
+- $L\left(d=0, \theta \notin H_0\right)=5$
+
+- $L\left(d=1, \theta \notin H_0\right)=0$
+
+- $L\left(d=0, \theta \in H_0\right)=0$
+
+Considerando a função de perda de Neyman:
+
+- $a_0=L(d=1, \theta \leq 0.25)=5 L(d=0, \theta \leq 0.25)=5 a_1$
+
+A decisão ótima é rejeitar $H_0$ se:
+
+$$
+P(\theta>0.25 \mid s)>\frac{a_0}{a_0+a_1}=\frac{5 a_1}{5 a_1+a_1}=\frac{5}{6}=0.833
+$$
+
+Como $P(\theta>0.25 \mid s)=0.944$ é maior do que 0.833 , a decisão ótima é rejeitar $H_0$.
+
+---
+
+#### **(iv)** É razoável chamar essa distribuição a priori de "nāo informativa" nesse problema? Se a sua resposta for negativa, sugira uma outra distribuição a priori e refaça os cálculos anteriores.
+
+Uma distribuição uniforme pode ser considerada "não informativa" em determinado contexto, embora nem sempre seja a escolha mais apropriada. Para hipóteses específicas, como $H_0$ e $H_1$, uma distribuição Beta pode oferecer maior relevância informativa.
+
+A priori uniforme favorece $H_1$, já que $P(\theta > 0.25) = 3P(\theta \leq 0.25)$. Para ajustar esse desequilíbrio, pode-se empregar uma distribuição Beta com $\beta = 3\alpha$, o que resulta em uma alternativa para a priori imprópria:
+$$
+\theta \sim \operatorname{Beta}(\alpha, 3 \alpha)
+$$
+
+Para obter uma variância maximizada, precisamos definir $\alpha \rightarrow 0$. Então:
+$$
+P(\theta) \propto \frac{1}{\theta(1-\theta)}
+$$
+
+Com a priori imprópria $P(\theta) \propto \frac{1}{\theta(1-\theta)}$, a distribuição a posteriori é proporcional a:
+$$
+P(\theta \mid s) \propto P(s \mid \theta) P(\theta) \propto \theta^s(1-\theta)^{n-s} \cdot \frac{1}{\theta(1-\theta)}=\theta^{s-1}(1-\theta)^{n-s-1}
+$$
+
+Isto é uma distribuição $\operatorname{Beta}(s, n-s)$.
+Para $n=20$ e $s=8$ :
+$$
+\theta \mid s \sim \operatorname{Beta}(8,12)
+$$
+
+A decisão de rejeitar $H_0$ é mantida tanto com a priori uniforme quanto com a priori Beta(1,3).
